@@ -544,7 +544,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 550, y: -150}
+  m_AnchoredPosition: {x: 150, y: -91}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &444996930
@@ -681,7 +681,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 650, y: -90}
+  m_AnchoredPosition: {x: 250, y: -31}
   m_SizeDelta: {x: 400, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &555931015
@@ -849,7 +849,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 550, y: -185}
+  m_AnchoredPosition: {x: 150, y: -126}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &664108736
@@ -1313,6 +1313,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 82625176358848759, guid: af9116a61e718e84b96b2dd0f816459d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 416930778977442110, guid: af9116a61e718e84b96b2dd0f816459d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.87809
@@ -1351,6 +1355,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 416930778977442110, guid: af9116a61e718e84b96b2dd0f816459d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2333921700586583018, guid: af9116a61e718e84b96b2dd0f816459d, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 697473046}
+    - target: {fileID: 2333921700586583018, guid: af9116a61e718e84b96b2dd0f816459d, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5621292333160801344, guid: af9116a61e718e84b96b2dd0f816459d, type: 3}
@@ -1652,7 +1664,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -350, y: -90}
+  m_AnchoredPosition: {x: -350, y: -27}
   m_SizeDelta: {x: 500, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1453413617
@@ -1789,7 +1801,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 70, y: 110}
+  m_AnchoredPosition: {x: 70, y: 30}
   m_SizeDelta: {x: 1000, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1658352100
@@ -2316,17 +2328,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 37140331740076642, guid: 2eedf9e28b5cb3048a426bf2e0894d8f, type: 3}
+      propertyPath: orthographic size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5044279368921011618, guid: 2eedf9e28b5cb3048a426bf2e0894d8f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 1.75
       objectReference: {fileID: 0}
     - target: {fileID: 5044279368921011618, guid: 2eedf9e28b5cb3048a426bf2e0894d8f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 12
+      value: 14.4
       objectReference: {fileID: 0}
     - target: {fileID: 5044279368921011618, guid: 2eedf9e28b5cb3048a426bf2e0894d8f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 4.7
       objectReference: {fileID: 0}
     - target: {fileID: 5044279368921011618, guid: 2eedf9e28b5cb3048a426bf2e0894d8f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2359,7 +2375,7 @@ PrefabInstance:
     - target: {fileID: 5244489580750491149, guid: 2eedf9e28b5cb3048a426bf2e0894d8f, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 697473047}
     - target: {fileID: 5879630722673587480, guid: 2eedf9e28b5cb3048a426bf2e0894d8f, type: 3}
       propertyPath: m_IsActive
       value: 1
