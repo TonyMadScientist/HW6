@@ -8,6 +8,8 @@ public class PlantManager : MonoBehaviour
     public Transform player;
     public Key plantKey = Key.P;
 
+    public DayNightControl dayNightControl;
+
     // Remembers which tiles already have a plant
     private Dictionary<FarmTileControl, GameObject> plants =
         new Dictionary<FarmTileControl, GameObject>();
@@ -22,6 +24,15 @@ public class PlantManager : MonoBehaviour
 
     void TryPlant()
     {
+        if (dayNightControl != null && dayNightControl.GetCurrentSeason() == DayNightControl.Season.Winter)
+            {
+                Debug.Log(
+                    "Cannot plant during Winter."
+                );
+
+                return;
+            }
+
         if (player == null) { Debug.LogError("Player slot is empty!"); return; }
         if (plantPrefab == null) { Debug.LogError("Plant Prefab slot is empty!"); return; }
 
