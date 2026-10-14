@@ -46,6 +46,7 @@ public class FarmingAnimationController : MonoBehaviour
         toolWaterCan.SetActive(false);
         animator.SetBool("equipWaterCan", false);
         toolShovel.SetActive(false);
+        animator.SetBool("equipShovel", false);
         switch (currentTool)
         {
             case Tools.hoe:
@@ -57,6 +58,11 @@ public class FarmingAnimationController : MonoBehaviour
                 farmingToolbox.SetActive(true);
                 toolWaterCan.SetActive(true);
                 animator.SetBool("equipWaterCan", true);
+                break;
+            case Tools.shovel:
+                farmingToolbox.SetActive(true);
+                toolShovel.SetActive(true);
+                animator.SetBool("equipShovel", true);
                 break;
             case Tools.none:
             default:
