@@ -1,56 +1,170 @@
 using UnityEngine;
-using TMPro; // Important for TextMeshPro
+using TMPro;
 using UnityEngine.Events;
 
 public class DayNightControl : MonoBehaviour
 {
-    public Light sunLight; // Assign your directional light in the Inspector
-    public float cycleLengthInSeconds = 60f; //time of a whole day, can be adjusted in Unity editor
+    public enum DayOfWeek
+    {
+        Monday,
+        Tuesday,
+        Wednesday,
+        Thursday,
+        Friday,
+        Saturday,
+        Sunday
+    }
+
+    public enum Season
+    {
+        Spring,
+        Summer,
+        Fall,
+        Winter
+    }
+
+    [Header("Day / Night")]
+    public Light sunLight;
+    public float cycleLengthInSeconds = 60f;
 
     [SerializeField]
     private int DaysPassedInGame = 1;
-    private float currentTimeOfDay = 0f; // 0 to 1, representing percentage through the day
 
-    public TMP_Text dayLable;
+    private float currentTimeOfDay = 0f;
 
-    //this event gets fired when a day finishes and will let all the other objects that listens to this event know
-    public UnityEvent dayPassedEvent=new UnityEvent();
+    [Header("Calendar Settings")]
+    public int weeksPerSeason = 1;
+
+    public DayOfWeek currentDayOfWeek = DayOfWeek.Monday;
+    public Season currentSeason = Season.Spring;
+
+    [Header("Time Display GUI")]
+    public TMP_Text dayLabel;
+    public TMP_Text weekdayLabel;
+    public TMP_Text seasonLabel;
+
+    // Existing event
+    public UnityEvent dayPassedEvent = new UnityEvent();
+
+    // New HW6 season event
+    public UnityEvent seasonChangedEvent = new UnityEvent();
+
+    private void Start()
+    {
+        UpdateCalendar();
+        UpdateTimeDisplay();
+    }
 
     void Update()
     {
-        
-        currentTimeOfDay += Time.deltaTime / cycleLengthInSeconds;// adjust a small amount of time per frame
+        currentTimeOfDay += Time.deltaTime / cycleLengthInSeconds;
 
         if (currentTimeOfDay >= 1f)
         {
-            currentTimeOfDay = 0f; // Reset to start a new day
-            DaysPassedInGame++;
-            dayLable.text="Days:  "+DaysPassedInGame.ToString();
+            currentTimeOfDay = 0f;
 
-            dayPassedEvent.Invoke();//make announcement to all listeners
+            DaysPassedInGame++;
+
+            Season previousSeason = currentSeason;
+
+            UpdateCalendar();
+            UpdateTimeDisplay();
+
+            Debug.Log(
+                "New Day: " +
+                currentDayOfWeek +
+                " | Day " +
+                DaysPassedInGame +
+                " | " +
+                currentSeason
+            );
+
+            dayPassedEvent.Invoke();
+
+            // Only announce a season change if season actually changed
+            if (previousSeason != currentSeason)
+            {
+                Debug.Log("New Season: " + currentSeason);
+                seasonChangedEvent.Invoke();
+            }
         }
 
-        // Calculate sun's rotation based on time of day
-        // 0 degrees for sunrise, 180 for sunset, 360 for next sunrise
-        float sunRotationX = Mathf.Lerp(0f, 360f, currentTimeOfDay);
+        float sunRotationX =
+            Mathf.Lerp(0f, 360f, currentTimeOfDay);
 
-        // Apply rotation to the sun light
-        sunLight.transform.rotation = Quaternion.Euler(sunRotationX, 0f, 0f);
-
-        // Optional: Adjust other elements, like skybox, light source intensity, and so on
-        // sunLight.intensity = 
-        // RenderSettings.fogColor = 
-        // RenderSettings.skybox.SetFloat
+        if (sunLight != null)
+        {
+            sunLight.transform.rotation =
+                Quaternion.Euler(sunRotationX, 0f, 0f);
+        }
     }
-    public int Get_DaysPassedInGame() {
+
+    private void UpdateCalendar()
+    {
+        int dayIndex =
+            (DaysPassedInGame - 1) % 7;
+
+        currentDayOfWeek =
+            (DayOfWeek)dayIndex;
+
+        int daysPerSeason =
+            weeksPerSeason * 7;
+
+        int seasonIndex =
+            ((DaysPassedInGame - 1) /
+            daysPerSeason) % 4;
+
+        currentSeason =
+            (Season)seasonIndex;
+    }
+
+    private void UpdateTimeDisplay()
+    {
+        if (dayLabel != null)
+        {
+            dayLabel.text =
+                "Day: " +
+                DaysPassedInGame;
+        }
+
+        if (weekdayLabel != null)
+        {
+            weekdayLabel.text =
+                currentDayOfWeek.ToString();
+        }
+
+        if (seasonLabel != null)
+        {
+            seasonLabel.text =
+                currentSeason.ToString();
+        }
+    }
+
+    public int Get_DaysPassedInGame()
+    {
         return DaysPassedInGame;
     }
 
-    //provide API for other objects to add themselves to the listner list
-    //objects in this list can receive callback when each day passessss
+    public DayOfWeek GetCurrentDayOfWeek()
+    {
+        return currentDayOfWeek;
+    }
+
+    public Season GetCurrentSeason()
+    {
+        return currentSeason;
+    }
+
     public void listenToDayPassEvent(GameObject listener)
     {
-        //when the day pass event is triggered, the farm tile's ADayPassed() function will be called
-        dayPassedEvent.AddListener(listener.GetComponent<FarmTileControl>().ADayPassed);
+        FarmTileControl tile =
+            listener.GetComponent<FarmTileControl>();
+
+        if (tile != null)
+        {
+            dayPassedEvent.AddListener(
+                tile.ADayPassed
+            );
+        }
     }
 }
