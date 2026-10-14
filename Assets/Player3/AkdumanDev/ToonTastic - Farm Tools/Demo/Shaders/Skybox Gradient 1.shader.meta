@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: afe8de334ec25844eb2ead901caa6468
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 265686
+  packageName: ToonTastic - Farm Tools
+  packageVersion: 1.0
+  assetPath: Assets/AkdumanDev/ToonTastic - Farm Tools/Demo/Shaders/Skybox Gradient 1.shader
+  uploadId: 623330

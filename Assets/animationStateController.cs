@@ -42,4 +42,6 @@ public class AnimationStateController : MonoBehaviour
         animator.SetBool("isIdle", false);
         animator.SetBool("Win", true);
     }
+
+
 }

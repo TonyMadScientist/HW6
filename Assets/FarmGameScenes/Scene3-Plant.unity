@@ -520,10 +520,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 697473047}
     m_Modifications:
-    - target: {fileID: 213977440597532251, guid: 5e607e8f3bff06245b7c52f5455428a9, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3855604023559237914, guid: 5e607e8f3bff06245b7c52f5455428a9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.5974503
@@ -1978,8 +1974,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlantManager
   plantPrefab: {fileID: 568410040782672845, guid: 259124985c6e1e5438ffc5dd1b6ba29b, type: 3}
-  player: {fileID: 0}
+  player: {fileID: 478453243}
   plantKey: 30
+  distanceAhead: 1
+  rayHeight: 2
+  rayDistance: 6
 --- !u!4 &1783933595
 Transform:
   m_ObjectHideFlags: 0

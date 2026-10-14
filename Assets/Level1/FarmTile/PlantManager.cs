@@ -4,63 +4,148 @@ using UnityEngine.InputSystem;
 
 public class PlantManager : MonoBehaviour
 {
+    [Header("References")]
     public GameObject plantPrefab;
     public Transform player;
+
+    [Header("Plant Input")]
     public Key plantKey = Key.P;
 
-    // Remembers which tiles already have a plant
+    [Header("Planting Ray")]
+    public float distanceAhead = 1.5f;
+    public float rayHeight = 2f;
+    public float rayDistance = 6f;
+
+    // Remembers which tiles already have a plant.
     private Dictionary<FarmTileControl, GameObject> plants =
         new Dictionary<FarmTileControl, GameObject>();
 
-    void Update()
+    private void Update()
     {
-        if (Keyboard.current != null && Keyboard.current[plantKey].wasPressedThisFrame)
+        if (Keyboard.current == null)
+        {
+            return;
+        }
+
+        if (Keyboard.current[plantKey].wasPressedThisFrame)
         {
             TryPlant();
         }
     }
 
-    void TryPlant()
+    private Vector3 GetRayOrigin()
     {
-        if (player == null) { Debug.LogError("Player slot is empty!"); return; }
-        if (plantPrefab == null) { Debug.LogError("Plant Prefab slot is empty!"); return; }
+        return player.position +
+               player.forward * distanceAhead +
+               Vector3.up * rayHeight;
+    }
 
-        // Ray straight down from above the player; RaycastAll so the
-        // player's own collider doesn't block finding the tile
-        RaycastHit[] hits = Physics.RaycastAll(player.position + Vector3.up * 2f, Vector3.down, 6f);
+    private void TryPlant()
+    {
+        if (player == null)
+        {
+            Debug.LogError("Player slot is empty!");
+            return;
+        }
+
+        if (plantPrefab == null)
+        {
+            Debug.LogError("Plant Prefab slot is empty!");
+            return;
+        }
+
+        Vector3 rayOrigin = GetRayOrigin();
+
+        RaycastHit[] hits = Physics.RaycastAll(
+            rayOrigin,
+            Vector3.down,
+            rayDistance
+        );
+
+        // Remains visible for two seconds after pressing P.
+        Debug.DrawRay(
+            rayOrigin,
+            Vector3.down * rayDistance,
+            Color.red,
+            2f
+        );
 
         FarmTileControl tile = null;
         Collider tileCollider = null;
+
         foreach (RaycastHit hit in hits)
         {
-            tile = hit.collider.GetComponentInParent<FarmTileControl>();
-            if (tile != null) { tileCollider = hit.collider; break; }
-        }
-        if (tile == null) return;
+            tile =
+                hit.collider.GetComponentInParent<FarmTileControl>();
 
-        // Only watered tiles can be planted on
-        if (tile.tileCond != FarmTileControl.FarmTileCond.Watered)
+            if (tile != null)
+            {
+                tileCollider = hit.collider;
+                break;
+            }
+        }
+
+        if (tile == null)
+        {
+            Debug.Log(
+                "No farm tile was found underneath the planting ray."
+            );
+
+            return;
+        }
+
+        // Only watered tiles can be planted on.
+        if (tile.tileCond !=
+            FarmTileControl.FarmTileCond.Watered)
         {
             Debug.Log("Can only plant on a watered tile.");
             return;
         }
 
-        // One plant per tile
-        if (plants.ContainsKey(tile) && plants[tile] != null)
+        // Only one plant can exist on each tile.
+        if (plants.ContainsKey(tile) &&
+            plants[tile] != null)
         {
             Debug.Log("This tile already has a plant.");
             return;
         }
 
-        // Spawn on the top surface of the tile
-        Vector3 pos = tile.transform.position;
-        pos.y = tileCollider.bounds.max.y;
+        // Spawn at the center and on top of the tile.
+        Vector3 plantPosition = tile.transform.position;
+        plantPosition.y = tileCollider.bounds.max.y;
 
-        Debug.Log("PLANTING on frame " + Time.frameCount +
-          " | P held: " + Keyboard.current[Key.P].isPressed +
-          " | plantKey: " + plantKey + "\n" + System.Environment.StackTrace);
-          
-        GameObject plant = Instantiate(plantPrefab, pos, Quaternion.identity, transform);
+        GameObject plant = Instantiate(
+            plantPrefab,
+            plantPosition,
+            Quaternion.identity,
+            transform
+        );
+
         plants[tile] = plant;
+
+        Debug.Log(
+            "Plant created on " + tile.gameObject.name
+        );
+    }
+
+    // Draws the planting ray in the Scene window.
+    private void OnDrawGizmosSelected()
+    {
+        if (player == null)
+        {
+            return;
+        }
+
+        Vector3 rayOrigin = GetRayOrigin();
+
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawLine(
+            rayOrigin,
+            rayOrigin + Vector3.down * rayDistance
+        );
+
+        // Shows where the ray starts.
+        Gizmos.DrawSphere(rayOrigin, 0.1f);
     }
 }
