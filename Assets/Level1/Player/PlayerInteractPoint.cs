@@ -10,23 +10,28 @@ public class PlayerInteractPoint : MonoBehaviour
     [SerializeField] private float farmTileStaminaCost = 5f;
 
     private GameObject curTile;
-    private InputAction interactAction;
+    //private InputAction interactAction;
 
     private void Start()
     {
+        /*
         interactAction = InputSystem.actions.FindAction("Jump");
 
         if (interactAction != null)
             interactAction.performed += OnTileInteractPerformed;
+        */
     }
 
     private void OnDestroy()
     {
+        /*
         if (interactAction != null)
             interactAction.performed -= OnTileInteractPerformed;
+        */
     }
 
-    private void OnTileInteractPerformed(InputAction.CallbackContext context)
+    //private void OnTileInteractPerformed(InputAction.CallbackContext context)
+    public void Interact(ToolboxManager.Tools tool)
     {
         if (curTile == null)
             return;
@@ -48,7 +53,7 @@ public class PlayerInteractPoint : MonoBehaviour
         FarmTileControl farmTile = curTile.GetComponent<FarmTileControl>();
 
         if (farmTile != null)
-            farmTile.InteractWithFarmTile();
+            farmTile.InteractWithFarmTile(tool);
     }
 
     private void OnTriggerEnter(Collider other)
