@@ -6,8 +6,8 @@ public class FarmFund : MonoBehaviour // Player fund and purchases to be live ac
 
     public int money = 0;         
     public int seeds = 0;           
-    public int harvestedCount = 0; 
-
+    public int harvestedCount = 0;
+    public int storeVisits = 0;
     // upgrades bought in the store
     public bool hasFastShoes = false;
    // public bool hasNewSeed = false; // just a bonus item if you do want to added, we woud just need a new looking plant or we can take it out and keep it simple ;p 

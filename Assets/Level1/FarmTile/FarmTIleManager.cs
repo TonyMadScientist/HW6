@@ -84,10 +84,10 @@ public class FarmTIleManager : MonoBehaviour
             nextLevelButton.SetActive(false);
         }
 
-        // Start Level 1 with $0
+        // Start the level with the player acutal fund balance from FarmFund script 
         if (fundAmount != null)
         {
-            fundAmount.text = "Fund: $0";
+            fundAmount.text = "Fund: $" + FarmFund.Get().money;
         }
     }
 
@@ -121,9 +121,13 @@ public class FarmTIleManager : MonoBehaviour
             winMessage.SetActive(true);
         }
 
+        
+        // give the player fund and show the new balance
+        FarmFund.Get().AddMoney(winningFund);
+
         if (fundAmount != null)
         {
-            fundAmount.text = "Fund: $" + winningFund;
+            fundAmount.text = "Fund: $" + FarmFund.Get().money;
         }
 
         if (nextLevelButton != null)
