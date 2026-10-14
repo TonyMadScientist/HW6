@@ -2099,6 +2099,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1453413615}
   m_CullTransparentMesh: 1
+--- !u!4 &1495931425 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5366462157873126142, guid: 5e607e8f3bff06245b7c52f5455428a9, type: 3}
+  m_PrefabInstance: {fileID: 478453242}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1658352098
 GameObject:
   m_ObjectHideFlags: 0
@@ -2266,7 +2271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlantManager
   plantPrefab: {fileID: 568410040782672845, guid: 259124985c6e1e5438ffc5dd1b6ba29b, type: 3}
-  player: {fileID: 478453243}
+  player: {fileID: 1495931425}
   plantKey: 30
   dayNightControl: {fileID: 1248295910}
 --- !u!4 &1783933595
