@@ -6,7 +6,7 @@ public class PlantManager : MonoBehaviour
 {
     public GameObject plantPrefab;
     public Transform player;
-    public Key plantKey = Key.P;
+    //public Key plantKey = Key.P;
 
     public DayNightControl dayNightControl;
 
@@ -14,15 +14,17 @@ public class PlantManager : MonoBehaviour
     private Dictionary<FarmTileControl, GameObject> plants =
         new Dictionary<FarmTileControl, GameObject>();
 
-    void Update()
+    private void Update()
     {
+        /*
         if (Keyboard.current != null && Keyboard.current[plantKey].wasPressedThisFrame)
         {
             TryPlant();
         }
+        */
     }
 
-    void TryPlant()
+    public void TryPlant()
     {
         if (dayNightControl != null && dayNightControl.GetCurrentSeason() == DayNightControl.Season.Winter)
             {
@@ -67,9 +69,9 @@ public class PlantManager : MonoBehaviour
         Vector3 pos = tile.transform.position;
         pos.y = tileCollider.bounds.max.y;
 
-        Debug.Log("PLANTING on frame " + Time.frameCount +
-          " | P held: " + Keyboard.current[Key.P].isPressed +
-          " | plantKey: " + plantKey + "\n" + System.Environment.StackTrace);
+        Debug.Log("PLANTING on frame " + Time.frameCount);
+          //" | P held: " + Keyboard.current[Key.P].isPressed
+          //" | plantKey: " + plantKey + "\n" + System.Environment.StackTrace);
           
         GameObject plant = Instantiate(plantPrefab, pos, Quaternion.identity, transform);
         plants[tile] = plant;
