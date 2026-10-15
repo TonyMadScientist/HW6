@@ -1523,6 +1523,8 @@ MonoBehaviour:
   allowShovel: 0
   PlantManager: {fileID: 0}
   playerInteractPoint: {fileID: 1331977043}
+  harvestManager: {fileID: 0}
+  seedText: {fileID: 0}
 --- !u!4 &1164768545
 Transform:
   m_ObjectHideFlags: 0
@@ -1709,6 +1711,18 @@ PrefabInstance:
       propertyPath: farmingToolbox
       value: 
       objectReference: {fileID: 1331977047}
+    - target: {fileID: 8664462597038469404, guid: 5e607e8f3bff06245b7c52f5455428a9, type: 3}
+      propertyPath: forwardSpeed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8664462597038469404, guid: 5e607e8f3bff06245b7c52f5455428a9, type: 3}
+      propertyPath: sidewaySpeed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8664462597038469404, guid: 5e607e8f3bff06245b7c52f5455428a9, type: 3}
+      propertyPath: fastShoesMultiplier
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 9168543796421215421, guid: 5e607e8f3bff06245b7c52f5455428a9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.096

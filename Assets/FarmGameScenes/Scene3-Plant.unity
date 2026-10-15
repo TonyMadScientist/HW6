@@ -588,6 +588,18 @@ PrefabInstance:
       propertyPath: farmingToolbox
       value: 
       objectReference: {fileID: 562973547}
+    - target: {fileID: 8664462597038469404, guid: 5e607e8f3bff06245b7c52f5455428a9, type: 3}
+      propertyPath: forwardSpeed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8664462597038469404, guid: 5e607e8f3bff06245b7c52f5455428a9, type: 3}
+      propertyPath: sidewaySpeed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8664462597038469404, guid: 5e607e8f3bff06245b7c52f5455428a9, type: 3}
+      propertyPath: fastShoesMultiplier
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 9168543796421215421, guid: 5e607e8f3bff06245b7c52f5455428a9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.096
@@ -1927,7 +1939,7 @@ MonoBehaviour:
   winMessage: {fileID: 87277575}
   fundAmount: {fileID: 1453413617}
   nextLevelButton: {fileID: 1862520502}
-  winningFund: 150
+  winningFund: 300
   numFarmTileX: 4
   numFarmTileZ: 4
   gapSizeBetweenTiles: 0.1

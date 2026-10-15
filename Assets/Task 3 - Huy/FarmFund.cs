@@ -30,6 +30,7 @@ public class FarmFund : MonoBehaviour // Player fund and purchases to be live ac
         } else if (SceneManager.GetActiveScene().buildIndex == 4)
         {
             seeds = 16;
+            hasFastShoes = true;
         } else if (SceneManager.GetActiveScene().buildIndex == 2)
         {
             money = 100;

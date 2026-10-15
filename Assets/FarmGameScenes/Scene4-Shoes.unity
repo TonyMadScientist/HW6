@@ -588,6 +588,18 @@ PrefabInstance:
       propertyPath: farmingToolbox
       value: 
       objectReference: {fileID: 562973547}
+    - target: {fileID: 8664462597038469404, guid: 5e607e8f3bff06245b7c52f5455428a9, type: 3}
+      propertyPath: forwardSpeed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8664462597038469404, guid: 5e607e8f3bff06245b7c52f5455428a9, type: 3}
+      propertyPath: sidewaySpeed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8664462597038469404, guid: 5e607e8f3bff06245b7c52f5455428a9, type: 3}
+      propertyPath: fastShoesMultiplier
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 9168543796421215421, guid: 5e607e8f3bff06245b7c52f5455428a9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.096
@@ -2180,7 +2192,7 @@ MonoBehaviour:
   DaysPassedInGame: 1
   weeksPerSeason: 1
   currentDayOfWeek: 0
-  currentSeason: 0
+  currentSeason: 2
   dayLabel: {fileID: 555931015}
   weekdayLabel: {fileID: 987058909}
   seasonLabel: {fileID: 839457519}
@@ -2931,7 +2943,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1862520503
 RectTransform:
   m_ObjectHideFlags: 0
