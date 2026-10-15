@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FarmFund : MonoBehaviour // Player fund and purchases to be live across all scene changes 
 {
@@ -22,7 +23,18 @@ public class FarmFund : MonoBehaviour // Player fund and purchases to be live ac
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject); 
+        DontDestroyOnLoad(gameObject);
+        if (SceneManager.GetActiveScene().buildIndex == 3) // If we directly load into scene 3
+        {
+            seeds = 10;
+        } else if (SceneManager.GetActiveScene().buildIndex == 4)
+        {
+            seeds = 16;
+        } else if (SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            money = 100;
+            //storeVisits = 2; // Makes the shoes appear when loading into scene 2, skipping scenes 1 and 3.
+        }
     }
 
     // for FarmFund Get() it fixes crashes if there's no wallet added yet, get end up creates one on the spot

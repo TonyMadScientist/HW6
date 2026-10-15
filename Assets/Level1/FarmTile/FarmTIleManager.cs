@@ -104,6 +104,9 @@ public class FarmTIleManager : MonoBehaviour
         if (farmTiles.Count == 0)
             return;
 
+        if (FarmFund.Get().harvestedCount > 9)
+            Win();
+
         foreach (FarmTileControl tile in farmTiles)
         {
             if (tile.tileCond != FarmTileControl.FarmTileCond.Watered)
@@ -111,7 +114,11 @@ public class FarmTIleManager : MonoBehaviour
                 return;
             }
         }
+        Win();
+    }
 
+    private void Win()
+    {
         levelWon = true;
 
         Debug.Log("YOU WIN! All farm tiles are watered!");

@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +9,8 @@ public class ToolboxManager : MonoBehaviour
     public Key equipShovelKey = Key.Digit3;
     public Key interactKey = Key.Space;
 
+    public bool allowShovel = true;
+
     public enum Tools
     {
         none, // 0
@@ -15,13 +18,16 @@ public class ToolboxManager : MonoBehaviour
         wateringcan, // 2
         shovel // 3
     }
-    public Tools currentTool = Tools.none;
+    private Tools currentTool = Tools.none;
 
     private FarmingAnimationController animScript;
     public GameObject PlantManager;
     private PlantManager plantingScript;
     public GameObject playerInteractPoint;
     private PlayerInteractPoint tileScript;
+    public GameObject harvestManager;
+    private HarvestManager harvestScript;
+    public TMP_Text seedText;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -30,8 +36,19 @@ public class ToolboxManager : MonoBehaviour
         // Finds the component with this script in our children objects
         animScript = GetComponentInChildren<FarmingAnimationController>();
         // Gets the script for these gameobjects, needed to handle tilling, watering and planting
-        plantingScript = PlantManager.GetComponent<PlantManager>();
+        if (PlantManager != null)
+            plantingScript = PlantManager.GetComponent<PlantManager>();
         tileScript = playerInteractPoint.GetComponent<PlayerInteractPoint>();
+        if (harvestManager != null)
+            harvestScript = harvestManager.GetComponent<HarvestManager>();
+    }
+
+    private void Awake()
+    {
+        if ((FarmFund.Get().seeds > 0) && (seedText != null))
+        {
+            seedText.text = "Seeds: " + FarmFund.Get().seeds;
+        }
     }
 
     // Update is called once per frame
@@ -73,7 +90,11 @@ public class ToolboxManager : MonoBehaviour
             }
             else if (Keyboard.current[equipShovelKey].wasPressedThisFrame)
             {
-                if (currentTool != Tools.shovel)
+                if (!allowShovel)
+                {
+                    Debug.Log("You don't have a Shovel yet!");
+                }
+                else if (currentTool != Tools.shovel)
                 {
                     Debug.Log("Equipping Shovel");
                     currentTool = Tools.shovel; // Equip Shovel if we have something else (or nothing)
@@ -113,8 +134,16 @@ public class ToolboxManager : MonoBehaviour
                 break;
             case Tools.shovel:
                 Debug.Log("Interacting with: Shovel");
-                if (animScript.Plant())
-                    plantingScript.TryPlant();
+                if (animScript.Plant() & (harvestManager != null))
+                    if (!harvestScript.TryHarvest() & (PlantManager != null)) // Try to harvest first
+                    {
+                        int seeds = FarmFund.Get().seeds;
+                        if ((seeds > 0) && plantingScript.TryPlant()) // Try to plant if it says you can't harvest here (i.e. no plant there).
+                        {
+                            FarmFund.Get().seeds = --seeds;
+                            seedText.text = "Seeds: " + FarmFund.Get().seeds;
+                        }
+                    }
                 break;
             case Tools.none:
                 Debug.Log("Use the 1 2 3 Keys to equip a tool first!");

@@ -7,7 +7,7 @@ public class HarvestManager : MonoBehaviour
 {
     public Transform player;          
     public TMP_Text harvestText;      
-    public Key harvestKey = Key.H;
+    //public Key harvestKey = Key.H;
     public float harvestRange = 1f;   
 
     private void Start()
@@ -17,19 +17,21 @@ public class HarvestManager : MonoBehaviour
 
     private void Update()
     {
+        /*
         if (Keyboard.current != null && Keyboard.current[harvestKey].wasPressedThisFrame)
         {
             TryHarvest();
         }
+        */
     }
 
-    private void TryHarvest()
+    public bool TryHarvest()
     {
         // find the closest plant to the player
         Plant closest = null;
         float closestDist = harvestRange;
 
-        foreach (Plant plant in FindObjectsByType<Plant>(FindObjectsSortMode.None))
+        foreach (Plant plant in FindObjectsByType<Plant>())
         {
             // compare only left right and forward back distance
             Vector3 a = plant.transform.position;
@@ -48,13 +50,13 @@ public class HarvestManager : MonoBehaviour
         if (closest == null)
         {
             Debug.Log("No plant close enough to harvest.");
-            return;
+            return false;
         }
 
         if (!closest.IsMature())
         {
             Debug.Log("This plant isn't ready yet.");
-            return;
+            return false;
         }
 
         // remove the plant to count it
@@ -62,6 +64,7 @@ public class HarvestManager : MonoBehaviour
         FarmFund.Get().harvestedCount++;
         UpdateText();
         Debug.Log("Harvested! Total: " + FarmFund.Get().harvestedCount);
+        return true;
     }
 
     private void UpdateText()
