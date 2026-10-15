@@ -140,4 +140,9 @@ public class Plant : MonoBehaviour
         if (matureModel != null)
             matureModel.SetActive(s == 2);
     }
+
+    public bool IsMature()
+    {
+        return stage == 2;
+    }
 }
