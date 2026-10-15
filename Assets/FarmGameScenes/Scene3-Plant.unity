@@ -1927,7 +1927,7 @@ MonoBehaviour:
   winMessage: {fileID: 87277575}
   fundAmount: {fileID: 1453413617}
   nextLevelButton: {fileID: 1862520502}
-  winningFund: 100
+  winningFund: 150
   numFarmTileX: 4
   numFarmTileZ: 4
   gapSizeBetweenTiles: 0.1
