@@ -84,10 +84,10 @@ public class FarmTIleManager : MonoBehaviour
             nextLevelButton.SetActive(false);
         }
 
-        // Start Level 1 with $0
+        // Start the level with the player acutal fund balance from FarmFund script 
         if (fundAmount != null)
         {
-            fundAmount.text = "Fund: $0";
+            fundAmount.text = "Fund: $" + FarmFund.Get().money;
         }
     }
 
@@ -104,6 +104,9 @@ public class FarmTIleManager : MonoBehaviour
         if (farmTiles.Count == 0)
             return;
 
+        if (FarmFund.Get().harvestedCount > 9)
+            Win();
+
         foreach (FarmTileControl tile in farmTiles)
         {
             if (tile.tileCond != FarmTileControl.FarmTileCond.Watered)
@@ -111,7 +114,11 @@ public class FarmTIleManager : MonoBehaviour
                 return;
             }
         }
+        Win();
+    }
 
+    private void Win()
+    {
         levelWon = true;
 
         Debug.Log("YOU WIN! All farm tiles are watered!");
@@ -121,9 +128,13 @@ public class FarmTIleManager : MonoBehaviour
             winMessage.SetActive(true);
         }
 
+        
+        // give the player fund and show the new balance
+        FarmFund.Get().AddMoney(winningFund);
+
         if (fundAmount != null)
         {
-            fundAmount.text = "Fund: $" + winningFund;
+            fundAmount.text = "Fund: $" + FarmFund.Get().money;
         }
 
         if (nextLevelButton != null)

@@ -10,6 +10,7 @@ public class PlayerMove : MonoBehaviour
     //Important: public variables values set in the Unity editor will overwrite this init value set in code
     public float forwardSpeed = 1f;
     public float sidewaySpeed = 1f;
+    public float fastShoesMultiplier = 1.5f; // NEW: how much faster the Fast Shoes make the player
 
     // 2. These variables are to hold the Action references
     InputAction moveAction;
@@ -23,6 +24,15 @@ public class PlayerMove : MonoBehaviour
         // 3. Find the references to the "Move" and "Jump" actions
         moveAction = InputSystem.actions.FindAction("Move");
 
+    }
+
+    void Start()
+    {
+        if (FarmFund.Get().hasFastShoes)
+        {
+            forwardSpeed *= fastShoesMultiplier;
+            sidewaySpeed *= fastShoesMultiplier;
+        }
     }
 
     // Update is called once per frame

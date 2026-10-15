@@ -59,26 +59,41 @@ public class FarmTileControl:MonoBehaviour
     }
 
     //API prepared for the player to interact with tiles when steping on it and press the space key
-    public void InteractWithFarmTile()
+    public void InteractWithFarmTile(ToolboxManager.Tools tool)
     {
         switch (tileCond){
             case FarmTileCond.Grass://interact with the grass tile tills it
-                Debug.Log("Player is tilling the tile " + transform.name);
-                tillTileAudio.Play();
-                tileCond = FarmTileCond.Tilled;
-                UpdateTileMaterial();
-                daysPassedSinceLastInteraction = 0;
+                if (tool == ToolboxManager.Tools.hoe)
+                {
+                    Debug.Log("Player is tilling the tile " + transform.name);
+                    tillTileAudio.Play();
+                    tileCond = FarmTileCond.Tilled;
+                    UpdateTileMaterial();
+                    daysPassedSinceLastInteraction = 0;
+                } else {
+                    Debug.Log("Must equip Hoe to till the grass!");
+                }
                 break;
             case FarmTileCond.Tilled://interact with the tilled land waters it
-                Debug.Log("Player is watering the tile " + transform.name);
-                waterTileAudio.Play();
-                tileCond= FarmTileCond.Watered;
-                UpdateTileMaterial();
-                daysPassedSinceLastInteraction = 0;
+                if (tool == ToolboxManager.Tools.wateringcan)
+                {
+                    Debug.Log("Player is watering the tile " + transform.name);
+                    waterTileAudio.Play();
+                    tileCond = FarmTileCond.Watered;
+                    UpdateTileMaterial();
+                    daysPassedSinceLastInteraction = 0;
+                } else {
+                    Debug.Log("Must equip Watering Can to water the soil!");
+                }
                 break;
             case FarmTileCond.Watered://repeated interaction on the watered tile does not change it to other conditions
-                Debug.Log("Tile is watered and ready for plants " + transform.name);
-                daysPassedSinceLastInteraction = 0;
+                if (tool == ToolboxManager.Tools.wateringcan)
+                {
+                    Debug.Log("Tile is watered and ready for plants " + transform.name);
+                    daysPassedSinceLastInteraction = 0;
+                } else {
+                    Debug.Log("Must equip Watering Can to water the soil!");
+                }
                 break;
         }
     }
