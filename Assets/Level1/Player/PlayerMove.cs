@@ -25,6 +25,15 @@ public class PlayerMove : MonoBehaviour
 
     }
 
+    void Start()
+    {
+        if (FarmFund.Get().hasFastShoes)
+        {
+            forwardSpeed *= fastShoesMultiplier;
+            sidewaySpeed *= fastShoesMultiplier;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {

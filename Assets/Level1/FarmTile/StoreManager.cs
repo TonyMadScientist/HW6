@@ -21,6 +21,19 @@ public class StoreManager : MonoBehaviour
     public Button buyShoesButton;     // for BuyShoes
     public int shoesPrice = 50;
     public string level4SceneName = "Scene4"; 
+    public string plantSceneName = "Scene3-Plant"; // NEW: scene for the first store visit
+
+#if UNITY_EDITOR
+    // NEW: drag scene files here in the Inspector (editor only, so builds still work)
+    public UnityEditor.SceneAsset plantScene;   // first store visit -> Scene3-Plant
+    public UnityEditor.SceneAsset level4Scene;  // second store visit -> Scene4
+
+    private void OnValidate()
+    {
+        if (plantScene != null) plantSceneName = plantScene.name;
+        if (level4Scene != null) level4SceneName = level4Scene.name;
+    }
+#endif
 
     private void Start()
     { 
@@ -89,7 +102,7 @@ public class StoreManager : MonoBehaviour
         if (FarmFund.Get().storeVisits >= 2)
             SceneManager.LoadScene(level4SceneName);
         else
-            SceneManager.LoadScene("Scene3-Plant");
+            SceneManager.LoadScene(plantSceneName); // CHANGED: was hardcoded "Scene3-Plant"
     }
     private void RefreshUI()
     {

@@ -12,6 +12,7 @@ public class HarvestManager : MonoBehaviour
 
     private void Start()
     {
+        FarmFund.Get().harvestedCount = 0; // each level starts its harvest count at 0
         UpdateText();
     }
 

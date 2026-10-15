@@ -1902,6 +1902,9 @@ MonoBehaviour:
   buyShoesButton: {fileID: 2087121050}
   shoesPrice: 50
   level4SceneName: Scene4-Shoes
+  plantSceneName: Scene3-Plant
+  plantScene: {fileID: 102900000, guid: 2dc9197ce1a443a4dbd65c9b74da20c1, type: 3}
+  level4Scene: {fileID: 102900000, guid: ddfeeb46f2cefb544a8e67483c5d229d, type: 3}
 --- !u!4 &1330812621
 Transform:
   m_ObjectHideFlags: 0
