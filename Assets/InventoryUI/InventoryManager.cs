@@ -11,6 +11,8 @@ public class InventoryManager : MonoBehaviour
     public GameObject inventoryMain;//will hide it after grabbing all the inventory slots in start
     public GameObject inventoryItemPrefab;
     private List<GameObject> itemInBagList= new List<GameObject>();
+    public GameObject toolSlot;
+    public GameObject seedSlot;
 
     public void Start()
     {
@@ -60,7 +62,7 @@ public class InventoryManager : MonoBehaviour
     //API for other parts of the program to remove an item from the inventory, like selling or planting
     public bool RemoveItem(string itemName) {
         if (isDebug)
-            Debug.Log("InventoryManager removeing item: " + itemName);
+            Debug.Log("InventoryManager removing item: " + itemName);
         for (int index = 0; index < itemInBagList.Count; index++)//if this item already exist in the bag, just refresh counter
         {
             if (itemInBagList[index].name == itemName)
@@ -81,6 +83,59 @@ public class InventoryManager : MonoBehaviour
         return false;//the bag does not contain the item to be removed
     }
 
+    public bool HasItem(string itemName)
+    {
+        if (isDebug)
+            Debug.Log("InventoryManager checking for item: " + itemName);
+        for (int index = 0; index < itemInBagList.Count; index++)//if this item already exist in the bag, just refresh counter
+        {
+            if (itemInBagList[index].name == itemName)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
-    
+    public bool AddItems(InventoryItemData itemData, int num)
+    {
+        for (int i=0; i<num; i++)
+        {
+            if (!AddItem(itemData))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void SetTool(InventoryItemData itemData)
+    {
+        RemoveTool();
+        GameObject newItem = Instantiate(inventoryItemPrefab, toolSlot.transform);
+        newItem.GetComponent<InventoryItem>().itemData = itemData;
+    }
+
+    public void SetSeed(InventoryItemData itemData)
+    {
+        GameObject newItem = Instantiate(inventoryItemPrefab, seedSlot.transform);
+        newItem.GetComponent<InventoryItem>().itemData = itemData;
+    }
+
+    public void RemoveTool()
+    {
+        // Safe backwards loop to destroy all children
+        for (int i = toolSlot.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(toolSlot.transform.GetChild(i).gameObject);
+        }
+    }
+    public void RemoveSeedSlot()
+    {
+        // Safe backwards loop to destroy all children
+        for (int i = seedSlot.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(seedSlot.transform.GetChild(i).gameObject);
+        }
+    }
 }

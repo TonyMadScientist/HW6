@@ -29,10 +29,18 @@ public class FarmFund : MonoBehaviour // Player fund and purchases to be live ac
             case 3: // If we directly load into scene 3 (Plant)
                 seeds = 10;
                 break;
-            case 4:
-            case 5: // Loading into either scenes 4 (Shoes) or 5 (Inventory)
+            case 4: // Loading into Scenes 4 (Shoes)
                 seeds = 16;
                 hasFastShoes = true;
+                break;
+            case 5: // Scene 5 (Inventory)
+                hasFastShoes = true;
+                GameObject inventoryObj = GameObject.Find("InventoryManager");
+                InventoryManager inventoryScript;
+                if (inventoryObj != null)
+                {
+                    inventoryScript = inventoryObj.GetComponent<InventoryManager>();
+                }
                 break;
             case 2: // Scene 2 (shop)
                 money = 100;
