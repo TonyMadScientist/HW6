@@ -24,17 +24,20 @@ public class FarmFund : MonoBehaviour // Player fund and purchases to be live ac
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        if (SceneManager.GetActiveScene().buildIndex == 3) // If we directly load into scene 3
-        {
-            seeds = 10;
-        } else if (SceneManager.GetActiveScene().buildIndex == 4)
-        {
-            seeds = 16;
-            hasFastShoes = true;
-        } else if (SceneManager.GetActiveScene().buildIndex == 2)
-        {
-            money = 100;
-            //storeVisits = 2; // Makes the shoes appear when loading into scene 2, skipping scenes 1 and 3.
+        // Set debug data if we start the game from a specific stage instead of from the start of Scene0
+        switch (SceneManager.GetActiveScene().buildIndex) {
+            case 3: // If we directly load into scene 3 (Plant)
+                seeds = 10;
+                break;
+            case 4:
+            case 5: // Loading into either scenes 4 (Shoes) or 5 (Inventory)
+                seeds = 16;
+                hasFastShoes = true;
+                break;
+            case 2: // Scene 2 (shop)
+                money = 100;
+                storeVisits = 2; // Makes the shoes appear when loading into scene 2, skipping scenes 1 and 3.
+                break;
         }
     }
 
