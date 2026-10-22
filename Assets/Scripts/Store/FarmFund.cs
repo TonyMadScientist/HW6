@@ -28,10 +28,12 @@ public class FarmFund : MonoBehaviour // Player fund and purchases to be live ac
         switch (SceneManager.GetActiveScene().buildIndex) {
             case 3: // If we directly load into scene 3 (Plant)
                 seeds = 10;
+                storeVisits = 1;
                 break;
             case 4: // Loading into Scenes 4 (Shoes)
-                seeds = 16;
+                seeds = 18;
                 hasFastShoes = true;
+                storeVisits = 2;
                 break;
             case 5: // Scene 5 (Inventory)
                 hasFastShoes = true;
@@ -79,9 +81,31 @@ public class FarmFund : MonoBehaviour // Player fund and purchases to be live ac
 
     public void NextLevel()
     {
-        if (SceneManager.GetActiveScene().buildIndex < 4)
-            SceneManager.LoadScene(2); // Go to first store after levels 1, 3, and 4
-        else
-            SceneManager.LoadScene(6); // Go to the new store that uses the inventory
-    }
+        switch (SceneManager.GetActiveScene().buildIndex) {
+            case 0:
+                SceneManager.LoadScene(2);
+                break;
+            case 1:
+            case 3:
+            case 4:
+                SceneManager.LoadScene(2); // Go to first store after levels 1, 3, and 4
+                break;
+            case 6:
+                if (storeVisits == 3)
+                    SceneManager.LoadScene(5); // Scene6-FullStore uniquely comes after Scene5-Inventory
+                else {
+                    int sceneCount = SceneManager.sceneCountInBuildSettings;
+                    int destinationScene = storeVisits + 3; // All future level loads follow this formula
+                    if (destinationScene < sceneCount)
+                        SceneManager.LoadScene(destinationScene); // Go to the next level, 3 more than the number of store visits.
+                    else
+                        SceneManager.LoadScene(sceneCount - 1); // Loop the last scene infinitely
+                }
+                break;
+            default:
+                SceneManager.LoadScene(6); // Go to the new store that uses the inventory
+                break;
+        }
+    } 
+    // 1>3, 2>4, 3>5, 4>7 (has 8), 5>8, 6>9
 }
