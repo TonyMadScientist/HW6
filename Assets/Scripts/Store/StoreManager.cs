@@ -42,7 +42,8 @@ public class StoreManager : MonoBehaviour
     { 
         FarmFund.Get().storeVisits++;
         bool secondVisit = FarmFund.Get().storeVisits >= 2;
-        upgradePanel.SetActive(secondVisit);
+        if (upgradePanel != null)
+            upgradePanel.SetActive(secondVisit);
         buyShoesButton.interactable = !FarmFund.Get().hasFastShoes; // prevent from buying twice
 
         // Can't leave until the player buy seeds

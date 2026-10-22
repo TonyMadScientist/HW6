@@ -994,7 +994,6 @@ MonoBehaviour:
   PlantManager: {fileID: 1783933593}
   playerInteractPoint: {fileID: 1495931424}
   harvestManager: {fileID: 1800964145}
-  inventoryObj: {fileID: 0}
   toolItems:
   - {fileID: 11400000, guid: 7c3339fcbc2b3db4db6738aaf31b93ed, type: 2}
   - {fileID: 11400000, guid: 5bd0413dc21425a4998cd79ef6de2eee, type: 2}
@@ -1961,6 +1960,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &877171112 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5162069239159541474, guid: 9b648f5509dd8e140a99f89976c34e1b, type: 3}
+  m_PrefabInstance: {fileID: 1082743322}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &895203126
 GameObject:
   m_ObjectHideFlags: 0
@@ -2412,6 +2416,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -105
       objectReference: {fileID: 0}
+    - target: {fileID: 1933278423024085884, guid: 9b648f5509dd8e140a99f89976c34e1b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1933278423024085884, guid: 9b648f5509dd8e140a99f89976c34e1b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 877171112}
+    - target: {fileID: 1933278423024085884, guid: 9b648f5509dd8e140a99f89976c34e1b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 1933278423024085884, guid: 9b648f5509dd8e140a99f89976c34e1b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1953600825181643073, guid: 9b648f5509dd8e140a99f89976c34e1b, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -2428,6 +2448,12 @@ PrefabInstance:
       propertyPath: 'itemsData.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 9892e21ea2f1bc845b65fda333eda452, type: 2}
+    - target: {fileID: 3584565965228510520, guid: 9b648f5509dd8e140a99f89976c34e1b, type: 3}
+      propertyPath: m_text
+      value: 'Hide TestingCanvas
+
+'
+      objectReference: {fileID: 0}
     - target: {fileID: 4054692458969507850, guid: 9b648f5509dd8e140a99f89976c34e1b, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -2505,8 +2531,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4960052271908744391, guid: 9b648f5509dd8e140a99f89976c34e1b, type: 3}
+      propertyPath: m_Name
+      value: Hide TestingCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 4960052271908744391, guid: 9b648f5509dd8e140a99f89976c34e1b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4987311763167264381, guid: 9b648f5509dd8e140a99f89976c34e1b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5162069239159541474, guid: 9b648f5509dd8e140a99f89976c34e1b, type: 3}
       propertyPath: m_Name
@@ -2514,27 +2548,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5804877340105075673, guid: 9b648f5509dd8e140a99f89976c34e1b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5804877340105075673, guid: 9b648f5509dd8e140a99f89976c34e1b, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5804877340105075673, guid: 9b648f5509dd8e140a99f89976c34e1b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5804877340105075673, guid: 9b648f5509dd8e140a99f89976c34e1b, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 30
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5804877340105075673, guid: 9b648f5509dd8e140a99f89976c34e1b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 150
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5804877340105075673, guid: 9b648f5509dd8e140a99f89976c34e1b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -135
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6052004497203141047, guid: 9b648f5509dd8e140a99f89976c34e1b, type: 3}
       propertyPath: m_AnchorMax.y
@@ -3570,7 +3604,6 @@ MonoBehaviour:
   player: {fileID: 1495931425}
   harvestText: {fileID: 1185775638}
   harvestRange: 1
-  inventoryObj: {fileID: 0}
   harvestItems:
   - {fileID: 11400000, guid: 9892e21ea2f1bc845b65fda333eda452, type: 2}
 --- !u!4 &1800964147

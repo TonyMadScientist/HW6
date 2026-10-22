@@ -994,6 +994,7 @@ MonoBehaviour:
   PlantManager: {fileID: 1783933593}
   playerInteractPoint: {fileID: 1495931424}
   harvestManager: {fileID: 1800964145}
+  toolItems: []
   seedText: {fileID: 1319938473}
 --- !u!1 &761401016
 GameObject:
@@ -1939,7 +1940,7 @@ MonoBehaviour:
   winMessage: {fileID: 87277575}
   fundAmount: {fileID: 1453413617}
   nextLevelButton: {fileID: 1862520502}
-  winningFund: 300
+  winningFund: 250
   numFarmTileX: 4
   numFarmTileZ: 4
   gapSizeBetweenTiles: 0.1
@@ -2835,6 +2836,7 @@ MonoBehaviour:
   player: {fileID: 1495931425}
   harvestText: {fileID: 1185775638}
   harvestRange: 1
+  harvestItems: []
 --- !u!4 &1800964147
 Transform:
   m_ObjectHideFlags: 0

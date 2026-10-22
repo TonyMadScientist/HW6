@@ -26,6 +26,8 @@ public class FarmTIleManager : MonoBehaviour
 
     private bool levelWon = false;
 
+    private FarmFund farm;
+
     private void Start()
     {
         curFarmTileSpawnPos = FarmTileSpawnStartLocation.position;
@@ -84,10 +86,12 @@ public class FarmTIleManager : MonoBehaviour
             nextLevelButton.SetActive(false);
         }
 
+        farm = FarmFund.Get(); // Get our FarmFund persistent object
+
         // Start the level with the player acutal fund balance from FarmFund script 
         if (fundAmount != null)
         {
-            fundAmount.text = "Fund: $" + FarmFund.Get().money;
+            fundAmount.text = "Fund: $" + farm.money;
         }
     }
 
@@ -102,9 +106,12 @@ public class FarmTIleManager : MonoBehaviour
     private void CheckForWin()
     {
         if (farmTiles.Count == 0)
-            return;
+            return; // Return if farmTiles haven't initialized
 
-        if (FarmFund.Get().harvestedCount > 9)
+        
+        if (!farm.hasFastShoes && farm.harvestedCount > 9) // Scene3-Plant needs 10 harvested
+            Win();
+        else if (farm.hasFastShoes && farm.harvestedCount > 15) // Scene4-Shoe needs 16 harvested
             Win();
 
         foreach (FarmTileControl tile in farmTiles)
@@ -130,11 +137,11 @@ public class FarmTIleManager : MonoBehaviour
 
         
         // give the player fund and show the new balance
-        FarmFund.Get().AddMoney(winningFund);
+        farm.AddMoney(winningFund);
 
         if (fundAmount != null)
         {
-            fundAmount.text = "Fund: $" + FarmFund.Get().money;
+            fundAmount.text = "Fund: $" + farm.money;
         }
 
         if (nextLevelButton != null)
@@ -146,6 +153,6 @@ public class FarmTIleManager : MonoBehaviour
     // Called by the Next Level button
     public void GoToStore()
     {
-        SceneManager.LoadScene("Scene2-Store");
+        farm.NextLevel();
     }
 }

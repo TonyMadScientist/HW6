@@ -12,7 +12,6 @@ public class HarvestManager : MonoBehaviour
     //public Key harvestKey = Key.H;
     public float harvestRange = 1f;
 
-    public GameObject inventoryObj;
     private InventoryManager inventoryScript;
 
     public InventoryItemData[] harvestItems;//stores a list of items' scriptable objects that can be added to inventory
@@ -21,9 +20,8 @@ public class HarvestManager : MonoBehaviour
     {
         FarmFund.Get().harvestedCount = 0; // each level starts its harvest count at 0
         UpdateText();
-        inventoryObj = GameObject.Find("InventoryManager");
-        if (inventoryObj != null)
-            inventoryScript = inventoryObj.GetComponent<InventoryManager>();
+        if (InventoryManager.Active())
+            inventoryScript = InventoryManager.Get(); // Only initialize if it was already created.
     }
 
     private void Update()

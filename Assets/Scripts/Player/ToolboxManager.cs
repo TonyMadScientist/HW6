@@ -31,7 +31,6 @@ public class ToolboxManager : MonoBehaviour
     public GameObject harvestManager;
     private HarvestManager harvestScript;
 
-    public GameObject inventoryObj;
     private InventoryManager inventoryScript;
 
     public InventoryItemData[] toolItems;//stores a list of items' scriptable objects that can be added to inventory
@@ -50,9 +49,8 @@ public class ToolboxManager : MonoBehaviour
         tileScript = playerInteractPoint.GetComponent<PlayerInteractPoint>();
         if (harvestManager != null)
             harvestScript = harvestManager.GetComponent<HarvestManager>();
-        inventoryObj = GameObject.Find("InventoryManager");
-        if (inventoryObj != null)
-            inventoryScript = inventoryObj.GetComponent<InventoryManager>();
+        if (InventoryManager.Active())
+            inventoryScript = InventoryManager.Get(); // Only initialize if it was already created.
     }
 
     private void Awake()

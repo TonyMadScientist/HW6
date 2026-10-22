@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Hoe
   buyPrice: 20
   sellPrice: 15
-  amountInBag: 1
+  amountInBag: 0
   itemType: 0
   interactionType: 0
   itemSprite: {fileID: 21300212, guid: 2700e06d970d112489ff23cfb58c3f78, type: 3}

@@ -8,7 +8,7 @@ public class InventoryItemData : ScriptableObject
 
     public int buyPrice;
     public int sellPrice;
-    public int amountInBag;
+    public int amountInBag = 0;
 
     public ItemType itemType;
     public InteractionType interactionType;
@@ -22,11 +22,11 @@ public class InventoryItemData : ScriptableObject
 //A plant can only be planted in the right season and all plants disappear in winter
 public enum ItemType
 {
-    tool,seed,harvest
+    tool,seed,harvest,currency
 }
 
 //you can change the usetool type to different type of interactions for different tools
 public enum InteractionType
 {
-    usetool,buy,sell
+    usetool,buy,sell,currency
 }

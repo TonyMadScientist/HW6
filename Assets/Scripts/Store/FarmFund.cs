@@ -35,16 +35,14 @@ public class FarmFund : MonoBehaviour // Player fund and purchases to be live ac
                 break;
             case 5: // Scene 5 (Inventory)
                 hasFastShoes = true;
-                GameObject inventoryObj = GameObject.Find("InventoryManager");
-                InventoryManager inventoryScript;
-                if (inventoryObj != null)
-                {
-                    inventoryScript = inventoryObj.GetComponent<InventoryManager>();
-                }
+                break;
+            case 6: // Scene 6 (NewStore)
+                hasFastShoes = true;
+                money = 350;
                 break;
             case 2: // Scene 2 (shop)
-                money = 100;
-                storeVisits = 2; // Makes the shoes appear when loading into scene 2, skipping scenes 1 and 3.
+                money = 250;
+                storeVisits = 1; // Makes the shoes appear when loading into scene 2, skipping scenes 1 and 3.
                 break;
         }
     }
@@ -74,5 +72,13 @@ public class FarmFund : MonoBehaviour // Player fund and purchases to be live ac
         money -= amount;
         Debug.Log("Fund -" + amount + " -> $" + money);
         return true;
+    }
+
+    public void NextLevel()
+    {
+        if (SceneManager.GetActiveScene().buildIndex < 4)
+            SceneManager.LoadScene(2); // Go to first store after levels 1, 3, and 4
+        else
+            SceneManager.LoadScene(6); // Go to the new store that uses the inventory
     }
 }
