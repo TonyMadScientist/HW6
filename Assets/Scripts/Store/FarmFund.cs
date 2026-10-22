@@ -39,6 +39,9 @@ public class FarmFund : MonoBehaviour // Player fund and purchases to be live ac
             case 6: // Scene 6 (NewStore)
                 hasFastShoes = true;
                 money = 350;
+                harvestedCount = 16;
+                seeds = 10;
+                storeVisits = 2;
                 break;
             case 2: // Scene 2 (shop)
                 money = 250;

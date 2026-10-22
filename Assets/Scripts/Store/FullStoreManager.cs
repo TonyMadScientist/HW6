@@ -1,8 +1,9 @@
+using System.Linq;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using TMPro;
-using Unity.VisualScripting;
 public class FullStoreManager : MonoBehaviour
 {
     //public Button buySeedButton;
@@ -18,7 +19,12 @@ public class FullStoreManager : MonoBehaviour
     public GameObject[] buttons;
 
     public InventoryItemData goldItem;
+    public InventoryItemData[] tools;
+    public InventoryItemData seedItem;
+    public InventoryItemData harvestItem;
+
     public GameObject inventoryManagerPrefab;
+    private int storeVisits;
 
 
     //public string plantSceneName = "Scene3-Plant"; // NEW: scene for the first store visit
@@ -41,26 +47,42 @@ public class FullStoreManager : MonoBehaviour
 #endif
 
     private void Start()
-    { 
-        FarmFund.Get().storeVisits++;
+    {
+        storeVisits = ++FarmFund.Get().storeVisits;
+        Debug.Log("STORE VISITS = " + storeVisits);
         // Can't leave until the player buys seeds
         startNextLevelButton.interactable = false;
 
-        if (!InventoryManager.Active())
-        {
-            GameObject.Instantiate(inventoryManagerPrefab);
-        }
-        inventoryManager = InventoryManager.Get();
+        InitInventory();
+        buttons = GameObject.FindGameObjectsWithTag("ShopButton");
+        buttons = buttons.OrderBy(go => go.transform.GetSiblingIndex().ToString("D2")).ToArray(); // Sort our buttons by the hierarchy order
 
-        if (FarmFund.Get().storeVisits < 3) // If this is the first time entering the full store.
+        // Only display the amount of buttons equal to the amount of storeVisits we have done, subtracted by 1.
+        // I.e. the first time you visit this store is on Visit 3, where it shows 2 buttons. 4th visit it shows 3 buttons.
+        for (int i = 0; i < buttons.Count(); i++)
+        {
+            if (i >= (storeVisits - 1))
+            {
+                buttons[i].SetActive(false);
+            }
+        }
+
+        if (FarmFund.Get().storeVisits <= 3) // If this is the first time entering the full store.
         {
             fundText.GameObject().SetActive(true);
             upgradePanel.SetActive(true);
             storeMessage.text = "STORE\r\nPurchase the bag to access the full store feature.";
             buttonHolder.SetActive(false);
-            //inventoryManager.GameObject().SetActive(false);
-        }
+        }            
         RefreshUI();
+    }
+    private void InitInventory()
+    {
+        if (!InventoryManager.Active())
+        {
+            GameObject.Instantiate(inventoryManagerPrefab);
+        }
+        inventoryManager = InventoryManager.Get();
     }
 
     public void BuyingBag(int bagPrice)
@@ -71,10 +93,18 @@ public class FullStoreManager : MonoBehaviour
         buttonHolder.SetActive(true);
         FarmFund farm = FarmFund.Get();
         farm.SpendMoney(bagPrice);
-        inventoryManager.GameObject().SetActive(true);
+        InitInventory();
         if (farm.money <= 0)
             farm.money = 225; // Fallback if there is problems with "DontDestroyOnLoad"
         inventoryManager.AddItems(goldItem, farm.money);
+        foreach (InventoryItemData tool in tools)
+        {
+            inventoryManager.AddItem(tool);
+        }
+        inventoryManager.AddItems(seedItem, farm.seeds);
+        inventoryManager.AddItems(harvestItem, farm.harvestedCount);
+        farm.seeds = 0;
+        farm.harvestedCount = 0;
     }
 
     public void StartNextLevel()
@@ -105,7 +135,6 @@ public class FullStoreManager : MonoBehaviour
                 break;
             default:
             case (InteractionType.buy):
-                Debug.Log("buy click");
                 if (inventoryManager.RemoveItems(goldItem.itemName, itemData.buyPrice))
                     inventoryManager.AddItem(itemData);
                 break;

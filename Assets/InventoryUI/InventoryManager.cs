@@ -159,27 +159,19 @@ public class InventoryManager : MonoBehaviour
     {
         if (AddItem(itemData)) // If we successfully add the item (not all slots full)
         {
-            numLeft = num--; // Subtrac one from the quantity we're adding.
-            itemDataToAdd = itemData; // Store these to process in the next update.
+            if (HasItem(itemData.itemName))
+                num--; // There's a weird off-by-one error if the item isn't yet in the inventory (making a new slot).
+            for (int i = num; i > 0; i--)
+            {
+                //Debug.Log(itemDataToAdd.itemName + i.ToString() + "." + lastUsedIndex.ToString());
+                AddExistingItem(lastUsedIndex, itemData);
+            }
             return true;
         } else {
             return false;
         }
     }
 
-    private void Update()
-    {
-        if (numLeft > 0) // We have quantity of items from AddItems() that we couldn't add until initilization happened.
-        {
-            //Debug.Log(itemDataToAdd.itemName + numLeft.ToString() + "." + lastUsedIndex.ToString());
-            for (int i = numLeft; i > 0; i--)
-            {
-                //Debug.Log(itemDataToAdd.itemName + i.ToString() + "." + lastUsedIndex.ToString());
-                AddExistingItem(lastUsedIndex, itemDataToAdd);
-            }
-            numLeft = 0; // Zero this once the quantity is added.
-        }
-    }
     public void SetTool(InventoryItemData itemData)
     {
         RemoveTool();
