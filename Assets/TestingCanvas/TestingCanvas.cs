@@ -18,7 +18,11 @@ public class TestingCanvas : MonoBehaviour
 
     public void Start()
     {
-        inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
+        if (!FarmFund.Get().enableTestingCanvas)
+            gameObject.SetActive(false); // Disable the canvas if we are told we don't need it.
+        else { 
+            inventoryManager = InventoryManager.Get();
+        }
     }
 
     public void AddItem(int index)

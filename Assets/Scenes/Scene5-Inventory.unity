@@ -227,7 +227,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &87277576
 RectTransform:
   m_ObjectHideFlags: 0
@@ -267,9 +267,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'YOU WIN!
-
-    16 crops harvested!'
+  m_text: Winter Has Arrived
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2546,6 +2544,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestingCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 5162069239159541474, guid: 9b648f5509dd8e140a99f89976c34e1b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5804877340105075673, guid: 9b648f5509dd8e140a99f89976c34e1b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2714,6 +2716,7 @@ MonoBehaviour:
   numFarmTileX: 4
   numFarmTileZ: 4
   gapSizeBetweenTiles: 0.1
+  dayNightControl: {fileID: 0}
 --- !u!4 &1173184620 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2015955068725829075, guid: 9520bada6c169bd499d4f8d942ca249e, type: 3}
@@ -3403,7 +3406,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1658352099
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3420,7 +3423,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 469, y: 37}
+  m_AnchoredPosition: {x: 469, y: 74}
   m_SizeDelta: {x: 1000, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1658352100
@@ -3443,9 +3446,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Level 3:
-
-    Harvest 16 crops with your speed shoes! '
+  m_text: 'Level 4: Grow as much as you can until winter! '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3606,6 +3607,7 @@ MonoBehaviour:
   harvestRange: 1
   harvestItems:
   - {fileID: 11400000, guid: 9892e21ea2f1bc845b65fda333eda452, type: 2}
+  - {fileID: 11400000, guid: 29489b5af36b71c40b4878b93d7276ac, type: 2}
 --- !u!4 &1800964147
 Transform:
   m_ObjectHideFlags: 0

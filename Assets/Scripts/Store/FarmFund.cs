@@ -11,7 +11,7 @@ public class FarmFund : MonoBehaviour // Player fund and purchases to be live ac
     public int storeVisits = 0;
     // upgrades bought in the store
     public bool hasFastShoes = false;
-   // public bool hasNewSeed = false; // just a bonus item if you do want to added, we woud just need a new looking plant or we can take it out and keep it simple ;p 
+    public bool enableTestingCanvas = false;
 
     private void Awake()
     
@@ -37,6 +37,8 @@ public class FarmFund : MonoBehaviour // Player fund and purchases to be live ac
                 break;
             case 5: // Scene 5 (Inventory)
                 hasFastShoes = true;
+                enableTestingCanvas = true;
+                storeVisits = 3;
                 break;
             case 6: // Scene 6 (NewStore)
                 hasFastShoes = true;
@@ -48,6 +50,13 @@ public class FarmFund : MonoBehaviour // Player fund and purchases to be live ac
             case 2: // Scene 2 (shop)
                 money = 250;
                 storeVisits = 1; // Makes the shoes appear when loading into scene 2, skipping scenes 1 and 3.
+                break;
+            case 0:
+            case 1:
+                enableTestingCanvas = false;
+                break;
+            default:
+                enableTestingCanvas = true;
                 break;
         }
     }
@@ -87,14 +96,13 @@ public class FarmFund : MonoBehaviour // Player fund and purchases to be live ac
                 break;
             case 1:
             case 3:
-            case 4:
-                SceneManager.LoadScene(2); // Go to first store after levels 1, 3, and 4
-                break;
+                SceneManager.LoadScene(2); // Go to first store after levels 1 and 3
+                break;                
             case 6:
-                if (storeVisits == 3)
-                    SceneManager.LoadScene(5); // Scene6-FullStore uniquely comes after Scene5-Inventory
+                int sceneCount = SceneManager.sceneCountInBuildSettings;
+                if (storeVisits == 3 || sceneCount == 7)
+                    SceneManager.LoadScene(5); // Scene6-FullStore uniquely comes after Scene5-Inventory, cycles if Scene7 doesn't exist
                 else {
-                    int sceneCount = SceneManager.sceneCountInBuildSettings;
                     int destinationScene = storeVisits + 3; // All future level loads follow this formula
                     if (destinationScene < sceneCount)
                         SceneManager.LoadScene(destinationScene); // Go to the next level, 3 more than the number of store visits.
@@ -102,7 +110,7 @@ public class FarmFund : MonoBehaviour // Player fund and purchases to be live ac
                         SceneManager.LoadScene(sceneCount - 1); // Loop the last scene infinitely
                 }
                 break;
-            default:
+            default: // Scenes 4, 5
                 SceneManager.LoadScene(6); // Go to the new store that uses the inventory
                 break;
         }

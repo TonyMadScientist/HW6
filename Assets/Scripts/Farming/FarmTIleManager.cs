@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class FarmTIleManager : MonoBehaviour
 {
@@ -27,9 +28,13 @@ public class FarmTIleManager : MonoBehaviour
     private bool levelWon = false;
 
     private FarmFund farm;
+    public DayNightControl dayNightControl;
 
     private void Start()
     {
+        if (dayNightControl == null)
+            dayNightControl = GameObject.Find("DayNightController").GetComponent<DayNightControl>();
+
         curFarmTileSpawnPos = FarmTileSpawnStartLocation.position;
 
         curFarmTileSpawnPos.y =
@@ -108,8 +113,10 @@ public class FarmTIleManager : MonoBehaviour
         if (farmTiles.Count == 0)
             return; // Return if farmTiles haven't initialized
 
-        
-        if (!farm.hasFastShoes && farm.harvestedCount > 9) // Scene3-Plant needs 10 harvested
+        // Scene 5 or higher AND Winter arrives
+        if ((SceneManager.GetActiveScene().buildIndex > 4) && (dayNightControl.GetCurrentSeason() == DayNightControl.Season.Winter))
+            Win();
+        else if (!farm.hasFastShoes && farm.harvestedCount > 9) // Scene3-Plant needs 10 harvested
             Win();
         else if (farm.hasFastShoes && farm.harvestedCount > 15) // Scene4-Shoe needs 16 harvested
             Win();
@@ -128,7 +135,7 @@ public class FarmTIleManager : MonoBehaviour
     {
         levelWon = true;
 
-        Debug.Log("YOU WIN! All farm tiles are watered!");
+        Debug.Log("YOU WIN!");
 
         if (winMessage != null)
         {

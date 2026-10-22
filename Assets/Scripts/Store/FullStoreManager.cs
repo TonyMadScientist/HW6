@@ -109,13 +109,7 @@ public class FullStoreManager : MonoBehaviour
 
     public void StartNextLevel()
     {
-
-        switch (FarmFund.Get().storeVisits)
-        {
-            default:
-                SceneManager.LoadScene(5); // CHANGE THIS. ALWAYS GOES TO SCENE 5
-                break;
-        }
+        FarmFund.Get().NextLevel();           
     }
     private void RefreshUI()
     {
@@ -140,5 +134,7 @@ public class FullStoreManager : MonoBehaviour
                 break;
         }
 
+        // This activates the Next Level button
+        startNextLevelButton.interactable = true;
     }
 }
