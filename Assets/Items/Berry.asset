@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5ac548da6cea324e89d93eaf1697ba2, type: 3}
+  m_Name: Berry
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryItemData
+  itemName: Berry
+  buyPrice: 11
+  sellPrice: 9
+  amountInBag: 0
+  itemType: 2
+  interactionType: 2
+  itemSprite: {fileID: 21300122, guid: 2700e06d970d112489ff23cfb58c3f78, type: 3}
+  stackable: 1

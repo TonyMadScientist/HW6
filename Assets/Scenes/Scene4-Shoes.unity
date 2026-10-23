@@ -994,6 +994,7 @@ MonoBehaviour:
   PlantManager: {fileID: 1783933593}
   playerInteractPoint: {fileID: 1495931424}
   harvestManager: {fileID: 1800964145}
+  toolItems: []
   seedText: {fileID: 1319938473}
 --- !u!1 &761401016
 GameObject:
@@ -1939,7 +1940,7 @@ MonoBehaviour:
   winMessage: {fileID: 87277575}
   fundAmount: {fileID: 1453413617}
   nextLevelButton: {fileID: 1862520502}
-  winningFund: 100
+  winningFund: 350
   numFarmTileX: 4
   numFarmTileZ: 4
   gapSizeBetweenTiles: 0.1
@@ -2013,8 +2014,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2082,7 +2083,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -130, y: 38}
+  m_AnchoredPosition: {x: -56, y: 65}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1244877422
@@ -2252,7 +2253,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -130, y: 94}
+  m_AnchoredPosition: {x: -56, y: 100}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1319938473
@@ -2302,8 +2303,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2833,6 +2834,7 @@ MonoBehaviour:
   player: {fileID: 1495931425}
   harvestText: {fileID: 1185775638}
   harvestRange: 1
+  harvestItems: []
 --- !u!4 &1800964147
 Transform:
   m_ObjectHideFlags: 0

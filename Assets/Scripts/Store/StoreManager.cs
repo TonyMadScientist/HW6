@@ -20,13 +20,16 @@ public class StoreManager : MonoBehaviour
     public GameObject upgradePanel;   //  for upgrade 
     public Button buyShoesButton;     // for BuyShoes
     public int shoesPrice = 50;
-    public string level4SceneName = "Scene4"; 
+    
     public string plantSceneName = "Scene3-Plant"; // NEW: scene for the first store visit
+    public string level4SceneName = "Scene4-Shoes";
+    public string level5SceneName = "Scene5-Inventory";
 
 #if UNITY_EDITOR
     // NEW: drag scene files here in the Inspector (editor only, so builds still work)
     public UnityEditor.SceneAsset plantScene;   // first store visit -> Scene3-Plant
-    public UnityEditor.SceneAsset level4Scene;  // second store visit -> Scene4
+    public UnityEditor.SceneAsset level4Scene;  // second store visit -> Scene4-Shoes
+    public UnityEditor.SceneAsset level5Scene;  // third store visit -> Scene5-Inventory
 
     private void OnValidate()
     {
@@ -39,7 +42,8 @@ public class StoreManager : MonoBehaviour
     { 
         FarmFund.Get().storeVisits++;
         bool secondVisit = FarmFund.Get().storeVisits >= 2;
-        upgradePanel.SetActive(secondVisit);
+        if (upgradePanel != null)
+            upgradePanel.SetActive(secondVisit);
         buyShoesButton.interactable = !FarmFund.Get().hasFastShoes; // prevent from buying twice
 
         // Can't leave until the player buy seeds
@@ -98,11 +102,20 @@ public class StoreManager : MonoBehaviour
 
     public void StartNextLevel()
     {
-  
-        if (FarmFund.Get().storeVisits >= 2)
-            SceneManager.LoadScene(level4SceneName);
-        else
-            SceneManager.LoadScene(plantSceneName); // CHANGED: was hardcoded "Scene3-Plant"
+
+        switch (FarmFund.Get().storeVisits)
+        {
+            case 3:
+                SceneManager.LoadScene(level5SceneName); // Go to scene 5 if this is the 3rd time shopping
+                break;
+            case 2:
+                SceneManager.LoadScene(level4SceneName); // Scene 4 if shopped two times.
+                break;
+            case 1:
+            default:
+                SceneManager.LoadScene(plantSceneName); // CHANGED: was hardcoded "Scene3-Plant"
+                break;
+        }
     }
     private void RefreshUI()
     {

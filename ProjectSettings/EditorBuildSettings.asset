@@ -20,5 +20,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Scene4-Shoes.unity
     guid: ddfeeb46f2cefb544a8e67483c5d229d
+  - enabled: 1
+    path: Assets/Scenes/Scene5-Inventory.unity
+    guid: 9a541ed8cff931148bf8525ae7cac8d5
+  - enabled: 1
+    path: Assets/Scenes/Scene6-FullStore.unity
+    guid: cdbe89f427b01d84c87a34e62d123a45
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

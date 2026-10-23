@@ -1,6 +1,8 @@
+using NUnit.Framework.Interfaces;
+using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro;
 
 public class HarvestManager : MonoBehaviour
 // Control is H for harvesting, press near a plant
@@ -8,12 +10,18 @@ public class HarvestManager : MonoBehaviour
     public Transform player;          
     public TMP_Text harvestText;      
     //public Key harvestKey = Key.H;
-    public float harvestRange = 1f;   
+    public float harvestRange = 1f;
+
+    private InventoryManager inventoryScript;
+
+    public InventoryItemData[] harvestItems;//stores a list of items' scriptable objects that can be added to inventory
 
     private void Start()
     {
         FarmFund.Get().harvestedCount = 0; // each level starts its harvest count at 0
         UpdateText();
+        if (InventoryManager.Active())
+            inventoryScript = InventoryManager.Get(); // Only initialize if it was already created.
     }
 
     private void Update()
@@ -62,9 +70,20 @@ public class HarvestManager : MonoBehaviour
 
         // remove the plant to count it
         Destroy(closest.gameObject);
-        FarmFund.Get().harvestedCount++;
-        UpdateText();
-        Debug.Log("Harvested! Total: " + FarmFund.Get().harvestedCount);
+        if (inventoryScript == null) // If we are in a scene WITHOUT InventoryManager
+        {
+            FarmFund.Get().harvestedCount++;
+            UpdateText();
+            Debug.Log("Harvested! Total: " + FarmFund.Get().harvestedCount);
+        } else { // We are in a scene WITH InventoryManager, so use that instead for harvest berries.
+            int index = 0; // Add the first item in the script. Hardcoded value.
+            // THIS NEEDS TO BE CHANGED LATER when we are detecting which plant we are removing.
+            if (index < harvestItems.Length)
+            {
+                inventoryScript.AddItem(harvestItems[index]);
+            } else
+                Debug.LogError("HarvestManager script needs to be given InventoryItemData array, out of bounds!");
+        }
         return true;
     }
 
