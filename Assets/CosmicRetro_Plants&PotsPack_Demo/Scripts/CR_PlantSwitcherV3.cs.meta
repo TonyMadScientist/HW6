@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 251645a523a93e34b9fd1b4f009ca682
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 406664
+  packageName: FREE Low Poly Plants & Pots Demo with Growth System / Cosmic Retro
+  packageVersion: 1.0
+  assetPath: Assets/CosmicRetro_Plants&PotsPack_Demo/Scripts/CR_PlantSwitcherV3.cs
+  uploadId: 992670

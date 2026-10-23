@@ -1,2 +1,14 @@
 fileFormatVersion: 2
 guid: 0b4b3246bb2821e40a74de5cbd26a872
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - selectedPlantData: {instanceID: 0}
+  - player: {fileID: 3855604023559237914, guid: 5e607e8f3bff06245b7c52f5455428a9, type: 3}
+  - dayNightControl: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
