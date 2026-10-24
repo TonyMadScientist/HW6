@@ -16,6 +16,10 @@ public class InventoryManager : MonoBehaviour
     private List<GameObject> itemInBagList= new List<GameObject>();
     public GameObject toolSlot;
     public GameObject seedSlot;
+        // Task 3 - remembers which actual inventory tool is equipped
+    // and which inventory slot it came from.
+    private GameObject equippedToolItem;
+    private Transform equippedToolHomeSlot;
 
     // for AddItems()
     private int lastUsedIndex; // Used to keep track of the last item slot filled
@@ -172,26 +176,101 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void SetTool(InventoryItemData itemData)
+        public void SetTool(InventoryItemData itemData)
     {
+        if (itemData == null || toolSlot == null)
+        {
+            Debug.LogError("SetTool is missing itemData or toolSlot.");
+            return;
+        }
+
+        // Find the ACTUAL inventory item already stored in the bag/bar.
+        GameObject requestedTool = null;
+
+        foreach (GameObject item in itemInBagList)
+        {
+            if (item == null)
+                continue;
+
+            InventoryItem inventoryItem = item.GetComponent<InventoryItem>();
+
+            if (inventoryItem != null &&
+                inventoryItem.itemData != null &&
+                inventoryItem.itemData.itemName == itemData.itemName)
+            {
+                requestedTool = item;
+                break;
+            }
+        }
+
+        if (requestedTool == null)
+        {
+            Debug.LogWarning(
+                "Could not equip " + itemData.itemName +
+                " because it was not found in the inventory."
+            );
+            return;
+        }
+
+        // Already equipped.
+        if (equippedToolItem == requestedTool)
+            return;
+
+        // Put the previously equipped tool back first.
         RemoveTool();
-        GameObject newItem = Instantiate(inventoryItemPrefab, toolSlot.transform);
-        newItem.GetComponent<InventoryItem>().itemData = itemData;
+
+        // Remember where this tool came from.
+        equippedToolItem = requestedTool;
+        equippedToolHomeSlot = requestedTool.transform.parent;
+
+        // Move the existing tool into the active tool slot.
+        requestedTool.transform.SetParent(toolSlot.transform, false);
+
+        RectTransform rect = requestedTool.GetComponent<RectTransform>();
+
+        if (rect != null)
+        {
+            rect.anchoredPosition = Vector2.zero;
+            rect.localScale = Vector3.one;
+        }
+
+        if (isDebug)
+            Debug.Log("Moved " + itemData.itemName + " into the active tool slot.");
     }
 
     public void SetSeed(InventoryItemData itemData)
-    {
-        GameObject newItem = Instantiate(inventoryItemPrefab, seedSlot.transform);
-        newItem.GetComponent<InventoryItem>().itemData = itemData;
-    }
-
-    public void RemoveTool()
-    {
-        // Safe backwards loop to destroy all children
-        for (int i = toolSlot.transform.childCount - 1; i >= 0; i--)
         {
-            Destroy(toolSlot.transform.GetChild(i).gameObject);
+            GameObject newItem = Instantiate(inventoryItemPrefab, seedSlot.transform);
+            newItem.GetComponent<InventoryItem>().itemData = itemData;
         }
+
+        public void RemoveTool()
+    {
+        if (equippedToolItem == null)
+            return;
+
+        if (equippedToolHomeSlot != null)
+        {
+            // Return the actual tool to the inventory slot it originally came from.
+            equippedToolItem.transform.SetParent(equippedToolHomeSlot, false);
+
+            RectTransform rect = equippedToolItem.GetComponent<RectTransform>();
+
+            if (rect != null)
+            {
+                rect.anchoredPosition = Vector2.zero;
+                rect.localScale = Vector3.one;
+            }
+
+            if (isDebug)
+                Debug.Log(
+                    "Returned " + equippedToolItem.name +
+                    " to its inventory slot."
+                );
+        }
+
+        equippedToolItem = null;
+        equippedToolHomeSlot = null;
     }
     public void RemoveSeedSlot()
     {
