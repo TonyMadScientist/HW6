@@ -151,6 +151,8 @@ MonoBehaviour:
   textObj: {fileID: 9195358340415381009}
   spriteObj: {fileID: 6759618649900729302}
   store: {fileID: 0}
+  audioSource: {fileID: 0}
+  clickSound: {fileID: 8300000, guid: 3dab3335db38f694b899816e29020283, type: 3}
 --- !u!1 &4387213869351947762
 GameObject:
   m_ObjectHideFlags: 0

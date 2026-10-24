@@ -26,6 +26,9 @@ public class FullStoreManager : MonoBehaviour
     public GameObject inventoryManagerPrefab;
     private int storeVisits;
 
+    public AudioClip clickSound;
+    public AudioClip bagSound;
+
 
     //public string plantSceneName = "Scene3-Plant"; // NEW: scene for the first store visit
     //public string level4SceneName = "Scene4-Shoes";
@@ -87,6 +90,7 @@ public class FullStoreManager : MonoBehaviour
 
     public void BuyingBag(int bagPrice)
     {
+        GetComponent<AudioSource>().PlayOneShot(bagSound);
         fundText.GameObject().SetActive(false);
         upgradePanel.SetActive(false);
         storeMessage.text = "SUPER STORE\r\nWith the tutorial over, you now have full store access.";
@@ -109,7 +113,11 @@ public class FullStoreManager : MonoBehaviour
 
     public void StartNextLevel()
     {
-        FarmFund.Get().NextLevel();           
+        GameObject soundObj = new GameObject("ClickSound");
+        DontDestroyOnLoad(soundObj);
+        soundObj.AddComponent<AudioSource>().PlayOneShot(clickSound);
+        Destroy(soundObj, clickSound.length);
+        FarmFund.Get().NextLevel();
     }
     private void RefreshUI()
     {

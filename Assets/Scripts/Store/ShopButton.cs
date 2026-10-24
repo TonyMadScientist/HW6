@@ -8,9 +8,12 @@ public class ShopButton : MonoBehaviour
     public TMP_Text textObj;
     public Image spriteObj;
     public FullStoreManager store;
+    public AudioSource audioSource;
+    public AudioClip clickSound;
 
     private void Start()
     {
+        audioSource = transform.parent.GetComponent<AudioSource>();
         if (store == null)
             store = GameObject.Find("FullStoreManager").GetComponent<FullStoreManager>();
         spriteObj.sprite = itemData.itemSprite;
@@ -33,6 +36,7 @@ public class ShopButton : MonoBehaviour
     // See FullStoreManager.cs for actual logic
     public void ButtonClick()
     {
+        audioSource.PlayOneShot(clickSound);
         if (store != null)
         {
             store = GameObject.Find("FullStoreManager").GetComponent<FullStoreManager>();
