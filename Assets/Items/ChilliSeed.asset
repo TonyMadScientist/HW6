@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5ac548da6cea324e89d93eaf1697ba2, type: 3}
-  m_Name: CornSeed
+  m_Name: ChilliSeed
   m_EditorClassIdentifier: Assembly-CSharp::CropData
-  itemName: CornSeed
+  itemName: ChilliSeed
   buyPrice: 3
   sellPrice: 9
   amountInBag: 0
   itemType: 1
   interactionType: 1
-  itemSprite: {fileID: 21300058, guid: 2700e06d970d112489ff23cfb58c3f78, type: 3}
+  itemSprite: {fileID: 21300182, guid: 2700e06d970d112489ff23cfb58c3f78, type: 3}
   stackable: 1
+  plantData: {fileID: 0}
