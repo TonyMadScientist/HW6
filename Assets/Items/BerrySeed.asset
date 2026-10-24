@@ -20,3 +20,4 @@ MonoBehaviour:
   interactionType: 1
   itemSprite: {fileID: 21300178, guid: 2700e06d970d112489ff23cfb58c3f78, type: 3}
   stackable: 1
+  plantData: {fileID: 11400000, guid: 1dd4af3df16cc654f9c1c73e4830c669, type: 2}

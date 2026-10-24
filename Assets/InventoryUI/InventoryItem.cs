@@ -50,7 +50,10 @@ public class InventoryItem : MonoBehaviour
             return false;
     }
 
-    private void RefreshUICounter() {
+
+
+    private void RefreshUICounter()
+    {
         if (itemData.stackable)
         {
             //Debug.Log(itemData.amountInBag);
@@ -61,6 +64,51 @@ public class InventoryItem : MonoBehaviour
             counterText.text = "";
             counterText.GameObject().SetActive(false);
         }
+    }
+
+    public void SelectItem()
+    {
+        if (itemData == null)
+        {
+            Debug.LogError("Inventory item has no ItemData.");
+            return;
+        }
+
+        if (itemData.itemType != ItemType.seed)
+        {
+            return;
+        }
+
+        if (itemData.plantData == null)
+        {
+            Debug.LogError(
+                itemData.itemName +
+                " has no PlantData assigned."
+            );
+
+            return;
+        }
+
+        PlantManager plantManager =
+            FindFirstObjectByType<PlantManager>();
+
+        if (plantManager == null)
+        {
+            Debug.LogError("PlantManager was not found.");
+            return;
+        }
+
+        // This updates BOTH:
+        // selectedSeedItem
+        // selectedPlantData
+        plantManager.SetSelectedSeed(itemData);
+
+        Debug.Log(
+            "Selected seed: " +
+            itemData.itemName +
+            " → " +
+            itemData.plantData.plantName
+        );
     }
 
     private void Update()

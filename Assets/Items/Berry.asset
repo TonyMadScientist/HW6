@@ -15,8 +15,9 @@ MonoBehaviour:
   itemName: Berry
   buyPrice: 11
   sellPrice: 9
-  amountInBag: 0
+  amountInBag: 4
   itemType: 2
   interactionType: 2
   itemSprite: {fileID: 21300122, guid: 2700e06d970d112489ff23cfb58c3f78, type: 3}
   stackable: 1
+  plantData: {fileID: 11400000, guid: 1dd4af3df16cc654f9c1c73e4830c669, type: 2}

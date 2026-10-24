@@ -1,58 +1,50 @@
-using NUnit.Framework.Interfaces;
-using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class HarvestManager : MonoBehaviour
-// Control is H for harvesting, press near a plant
 {
-    public Transform player;          
-    public TMP_Text harvestText;      
-    //public Key harvestKey = Key.H;
+    public Transform player;
+    public TMP_Text harvestText;
     public float harvestRange = 1f;
 
     private InventoryManager inventoryScript;
 
-    public InventoryItemData[] harvestItems;//stores a list of items' scriptable objects that can be added to inventory
-
     private void Start()
     {
-        FarmFund.Get().harvestedCount = 0; // each level starts its harvest count at 0
-        UpdateText();
-        if (InventoryManager.Active())
-            inventoryScript = InventoryManager.Get(); // Only initialize if it was already created.
-    }
+        FarmFund.Get().harvestedCount = 0;
 
-    private void Update()
-    {
-        /*
-        if (Keyboard.current != null && Keyboard.current[harvestKey].wasPressedThisFrame)
+        UpdateText();
+
+        if (InventoryManager.Active())
         {
-            TryHarvest();
+            inventoryScript = InventoryManager.Get();
         }
-        */
     }
 
     public bool TryHarvest()
     {
-        // find the closest plant to the player
         Plant closest = null;
         float closestDist = harvestRange;
 
-        foreach (Plant plant in FindObjectsByType<Plant>())
+        foreach (Plant plant in FindObjectsByType<Plant>(
+            FindObjectsSortMode.None))
         {
-            // compare only left right and forward back distance
-            Vector3 a = plant.transform.position;
-            Vector3 b = player.position;
-            a.y = 0;
-            b.y = 0;
-            float dist = Vector3.Distance(a, b);
+            Vector3 plantPosition = plant.transform.position;
+            Vector3 playerPosition = player.position;
 
-            if (dist < closestDist)
+            plantPosition.y = 0f;
+            playerPosition.y = 0f;
+
+            float distance =
+                Vector3.Distance(
+                    plantPosition,
+                    playerPosition
+                );
+
+            if (distance < closestDist)
             {
                 closest = plant;
-                closestDist = dist;
+                closestDist = distance;
             }
         }
 
@@ -64,31 +56,72 @@ public class HarvestManager : MonoBehaviour
 
         if (!closest.IsMature())
         {
-            Debug.Log("This plant isn't ready yet.");
+            Debug.Log("This plant is not mature.");
             return false;
         }
 
-        // remove the plant to count it
-        Destroy(closest.gameObject);
-        if (inventoryScript == null) // If we are in a scene WITHOUT InventoryManager
+        if (closest.plantData == null)
+        {
+            Debug.LogError(
+                "The plant has no PlantData assigned."
+            );
+
+            return false;
+        }
+
+        InventoryItemData harvestItem =
+            closest.plantData.harvestItem;
+
+        if (inventoryScript == null &&
+            InventoryManager.Active())
+        {
+            inventoryScript = InventoryManager.Get();
+        }
+
+        if (inventoryScript != null)
+        {
+            if (harvestItem == null)
+            {
+                Debug.LogError(
+                    closest.plantData.plantName +
+                    " has no harvest item assigned."
+                );
+
+                return false;
+            }
+
+            inventoryScript.AddItem(harvestItem);
+
+            Debug.Log(
+                "Harvested " +
+                closest.plantData.plantName +
+                " and added " +
+                harvestItem.itemName
+            );
+        }
+        else
         {
             FarmFund.Get().harvestedCount++;
             UpdateText();
-            Debug.Log("Harvested! Total: " + FarmFund.Get().harvestedCount);
-        } else { // We are in a scene WITH InventoryManager, so use that instead for harvest berries.
-            int index = 0; // Add the first item in the script. Hardcoded value.
-            // THIS NEEDS TO BE CHANGED LATER when we are detecting which plant we are removing.
-            if (index < harvestItems.Length)
-            {
-                inventoryScript.AddItem(harvestItems[index]);
-            } else
-                Debug.LogError("HarvestManager script needs to be given InventoryItemData array, out of bounds!");
+
+            Debug.Log(
+                "Harvested! Total: " +
+                FarmFund.Get().harvestedCount
+            );
         }
+
+        Destroy(closest.gameObject);
+
         return true;
     }
 
     private void UpdateText()
     {
-        harvestText.text = "Harvested: " + FarmFund.Get().harvestedCount;
+        if (harvestText != null)
+        {
+            harvestText.text =
+                "Harvested: " +
+                FarmFund.Get().harvestedCount;
+        }
     }
 }

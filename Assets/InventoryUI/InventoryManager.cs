@@ -4,18 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance;
     public static GameObject InstanceOBJ;
-    public bool isDebug=true;
+    public bool isDebug = true;
     public GameObject[] inventorySlots;
     public GameObject inventoryMain;//will hide it after grabbing all the inventory slots in start
     public GameObject inventoryItemPrefab;
-    private List<GameObject> itemInBagList= new List<GameObject>();
+    private List<GameObject> itemInBagList = new List<GameObject>();
     public GameObject toolSlot;
     public GameObject seedSlot;
+
+
 
     // for AddItems()
     private int lastUsedIndex; // Used to keep track of the last item slot filled
@@ -54,26 +57,28 @@ public class InventoryManager : MonoBehaviour
         inventorySlots = inventorySlots.OrderBy(go => go.name).ToArray();
         inventoryMain.SetActive(false);
     }
-    public bool AddItem(InventoryItemData itemData) {
+    public bool AddItem(InventoryItemData itemData)
+    {
         if (isDebug)
             Debug.Log("InventoryManager adding item checking if existed: " + itemData.itemName);
-        for (int index=0;index<itemInBagList.Count;index++)//if this item already exist in the bag, just refresh counter
+        for (int index = 0; index < itemInBagList.Count; index++)//if this item already exist in the bag, just refresh counter
         {
             Debug.Log(index.ToString() + itemInBagList[index].name);
             if (itemInBagList[index].name == itemData.itemName)
-            {                
-                AddExistingItem(index,itemData);
+            {
+                AddExistingItem(index, itemData);
                 return true;
             }
         }
         return AddNewItem(itemData);//if this item is a new item, find a empty slot to add it in
     }
-    private void AddExistingItem(int index,InventoryItemData itemData)
+    private void AddExistingItem(int index, InventoryItemData itemData)
     {
         itemInBagList[index].GetComponent<InventoryItem>().AddOneItem();
         lastUsedIndex = index; // Saves the last used item slot
     }
-    private bool AddNewItem(InventoryItemData itemData) {
+    private bool AddNewItem(InventoryItemData itemData)
+    {
         //find an empty slot in the list of inventory slots.
         foreach (var slot in inventorySlots)
         {
@@ -87,25 +92,73 @@ public class InventoryManager : MonoBehaviour
         }
         return false;//the slots are all full, give user a warning message
     }
-    private void SpawnANewItem(InventoryItemData itemData, GameObject emptySlot) {
-        GameObject newItem = Instantiate(inventoryItemPrefab, emptySlot.transform);
-        newItem.GetComponent<InventoryItem>().itemData = itemData;
-        //add to the list of items 
+    private void SpawnANewItem(
+        InventoryItemData itemData,
+        GameObject emptySlot)
+    {
+        GameObject newItem =
+            Instantiate(
+                inventoryItemPrefab,
+                emptySlot.transform
+            );
+
+        InventoryItem inventoryItem =
+            newItem.GetComponent<InventoryItem>();
+
+        if (inventoryItem == null)
+        {
+            Debug.LogError(
+                "Inventory prefab is missing InventoryItem."
+            );
+
+            return;
+        }
+
+        inventoryItem.itemData = itemData;
+
+        Button itemButton =
+            newItem.GetComponentInChildren<Button>(true);
+
+        if (itemButton == null)
+        {
+            Debug.LogError(
+                "Inventory prefab is missing a Button."
+            );
+        }
+        else
+        {
+            itemButton.onClick.AddListener(
+                inventoryItem.SelectItem
+            );
+
+            Debug.Log(
+                "Selection button connected for: " +
+                itemData.itemName
+            );
+        }
+
         itemData.amountInBag = 0;
         itemInBagList.Add(newItem);
-        lastUsedIndex = itemInBagList.Count() - 1; // Saves the last used item slot
+        lastUsedIndex = itemInBagList.Count - 1;
     }
 
     //API for other parts of the program to remove an item from the inventory, like selling or planting
-    public bool RemoveItem(string itemName) {
+    public bool RemoveItem(string itemName)
+    {
+        Debug.Log(
+    "REMOVING ITEM: " +
+    itemName +
+    "\nCALL STACK:\n" +
+    System.Environment.StackTrace
+);
         if (isDebug)
             Debug.Log("InventoryManager removing item: " + itemName);
         for (int index = 0; index < itemInBagList.Count; index++)//if this item already exist in the bag, just refresh counter
         {
             if (itemInBagList[index].name == itemName)
             {
-                GameObject item= itemInBagList[index];
-                bool successfulRemove=item.GetComponent<InventoryItem>().RemoveOneItem();
+                GameObject item = itemInBagList[index];
+                bool successfulRemove = item.GetComponent<InventoryItem>().RemoveOneItem();
 
                 int amountInBag = item.GetComponent<InventoryItem>().itemData.amountInBag;
                 if (amountInBag == 0) //item count==0, also remove the sprite from the slot
@@ -114,7 +167,7 @@ public class InventoryManager : MonoBehaviour
                     itemInBagList.RemoveAt(index);
                 }
                 return successfulRemove;
-           
+
             }
         }
         return false;//the bag does not contain the item to be removed
@@ -167,7 +220,9 @@ public class InventoryManager : MonoBehaviour
                 AddExistingItem(lastUsedIndex, itemData);
             }
             return true;
-        } else {
+        }
+        else
+        {
             return false;
         }
     }
@@ -201,4 +256,6 @@ public class InventoryManager : MonoBehaviour
             Destroy(seedSlot.transform.GetChild(i).gameObject);
         }
     }
+
+
 }

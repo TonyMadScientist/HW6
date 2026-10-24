@@ -10,11 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 143aaeb58781eff4a8fb09280f35ebb3, type: 3}
-  m_Name: TomatoData
+  m_Name: BerryData
   m_EditorClassIdentifier: Assembly-CSharp::PlantData
-  plantName: Tomato
+  plantName: Berry
   plantPrefab: {fileID: 568410040782672845, guid: 259124985c6e1e5438ffc5dd1b6ba29b, type: 3}
   plantingSeasons: 00000000i
+  disappearSeasons: 0100000002000000i
+  harvestItem: {fileID: 11400000, guid: 9892e21ea2f1bc845b65fda333eda452, type: 2}
   seedAmount: 1
   growthSpeed: 1
   daysPerGrowthStage: 3

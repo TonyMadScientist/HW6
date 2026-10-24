@@ -15,9 +15,9 @@ MonoBehaviour:
   itemName: ChilliSeed
   buyPrice: 3
   sellPrice: 9
-  amountInBag: 0
+  amountInBag: 1
   itemType: 1
   interactionType: 1
   itemSprite: {fileID: 21300182, guid: 2700e06d970d112489ff23cfb58c3f78, type: 3}
   stackable: 1
-  plantData: {fileID: 0}
+  plantData: {fileID: 11400000, guid: a24acf98b180c074bb91fa447f50ac79, type: 2}

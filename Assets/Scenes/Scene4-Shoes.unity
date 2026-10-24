@@ -1944,6 +1944,7 @@ MonoBehaviour:
   numFarmTileX: 4
   numFarmTileZ: 4
   gapSizeBetweenTiles: 0.1
+  dayNightControl: {fileID: 0}
 --- !u!4 &1173184620 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2015955068725829075, guid: 9520bada6c169bd499d4f8d942ca249e, type: 3}
@@ -2784,9 +2785,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b4b3246bb2821e40a74de5cbd26a872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlantManager
-  plantPrefab: {fileID: 568410040782672845, guid: 259124985c6e1e5438ffc5dd1b6ba29b, type: 3}
+  selectedPlantData: {fileID: 11400000, guid: 1dd4af3df16cc654f9c1c73e4830c669, type: 2}
   player: {fileID: 1495931425}
   dayNightControl: {fileID: 1248295910}
+  selectedSeedItem: {fileID: 11400000, guid: 5d1916896e850154f96b11277186f6a4, type: 2}
 --- !u!4 &1783933595
 Transform:
   m_ObjectHideFlags: 0
@@ -2834,7 +2836,6 @@ MonoBehaviour:
   player: {fileID: 1495931425}
   harvestText: {fileID: 1185775638}
   harvestRange: 1
-  harvestItems: []
 --- !u!4 &1800964147
 Transform:
   m_ObjectHideFlags: 0

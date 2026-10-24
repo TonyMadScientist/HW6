@@ -1,54 +1,46 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class PlantManager : MonoBehaviour
 {
     public PlantData selectedPlantData;
-    public PlantData[] plantTypes; 
     public Transform player;
     public DayNightControl dayNightControl;
+
+    public InventoryItemData selectedSeedItem;
 
     private Dictionary<FarmTileControl, GameObject> plants =
         new Dictionary<FarmTileControl, GameObject>();
 
     public void SetSelectedPlant(PlantData plantData)
     {
+        if (plantData == null)
+        {
+            Debug.LogError("The selected seed has no PlantData.");
+            return;
+        }
+
         selectedPlantData = plantData;
 
-        Debug.Log("Selected plant: " + plantData.plantName);
+        Debug.Log(
+            "Selected plant: " +
+            selectedPlantData.plantName
+        );
     }
 
     public bool TryPlant()
     {
+
+       
+        if (selectedPlantData == null)
+        {
+            Debug.LogError("No plant seed has been selected.");
+            return false;
+        }
+
         if (dayNightControl == null)
         {
             Debug.LogError("DayNightControl is not assigned.");
-            return false;
-        }
-
-        if (plantTypes != null && plantTypes.Length > 0)
-        {
-            DayNightControl.Season season = dayNightControl.GetCurrentSeason();
-
-            foreach (PlantData data in plantTypes)
-            {
-                if (data != null && data.CanBePlantedInSeason(season))
-                {
-                    selectedPlantData = data;
-                    break;
-                }
-            }
-        }
-
-        if (selectedPlantData == null)
-        {
-            Debug.LogError("No PlantData has been selected.");
-            return false;
-        }
-
-        if (selectedPlantData.plantPrefab == null)
-        {
-            Debug.LogError("The selected PlantData has no plant prefab assigned.");
             return false;
         }
 
@@ -61,6 +53,16 @@ public class PlantManager : MonoBehaviour
                 selectedPlantData.plantName +
                 " cannot be planted during " +
                 currentSeason
+            );
+
+            return false;
+        }
+
+        if (selectedPlantData.plantPrefab == null)
+        {
+            Debug.LogError(
+                selectedPlantData.plantName +
+                " has no plant prefab assigned."
             );
 
             return false;
@@ -83,7 +85,8 @@ public class PlantManager : MonoBehaviour
 
         foreach (RaycastHit hit in hits)
         {
-            tile = hit.collider.GetComponentInParent<FarmTileControl>();
+            tile =
+                hit.collider.GetComponentInParent<FarmTileControl>();
 
             if (tile != null)
             {
@@ -100,7 +103,7 @@ public class PlantManager : MonoBehaviour
 
         if (tile.tileCond != FarmTileControl.FarmTileCond.Watered)
         {
-            Debug.Log("The tile must be watered before planting.");
+            Debug.Log("The tile must be watered.");
             return false;
         }
 
@@ -120,21 +123,52 @@ public class PlantManager : MonoBehaviour
             transform
         );
 
-        Plant plantScript = newPlant.GetComponent<Plant>();
+        Plant plantScript =
+            newPlant.GetComponent<Plant>();
 
         if (plantScript != null)
         {
             plantScript.plantData = selectedPlantData;
         }
 
-        plants[tile] = newPlant;
+ 
 
         Debug.Log(
             selectedPlantData.plantName +
-            " planted successfully during " +
+            " planted during " +
             currentSeason
         );
 
         return true;
     }
+
+    public void SetSelectedSeed(InventoryItemData seedItem)
+    {
+        if (seedItem == null)
+        {
+            Debug.LogError("Selected seed is null.");
+            return;
+        }
+
+        if (seedItem.plantData == null)
+        {
+            Debug.LogError(
+                seedItem.itemName +
+                " has no PlantData assigned."
+            );
+
+            return;
+        }
+
+        selectedSeedItem = seedItem;
+        selectedPlantData = seedItem.plantData;
+
+        Debug.Log(
+            "Selected seed: " +
+            seedItem.itemName +
+            " → " +
+            selectedPlantData.plantName
+        );
+    }
+
 }
