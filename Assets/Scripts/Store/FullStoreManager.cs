@@ -87,24 +87,45 @@ public class FullStoreManager : MonoBehaviour
 
     public void BuyingBag(int bagPrice)
     {
-        fundText.GameObject().SetActive(false);
+        fundText.gameObject.SetActive(false);
         upgradePanel.SetActive(false);
-        storeMessage.text = "SUPER STORE\r\nWith the tutorial over, you now have full store access.";
+
+        storeMessage.text =
+            "SUPER STORE\r\nWith the tutorial over, you now have full store access.";
+
         buttonHolder.SetActive(true);
+
         FarmFund farm = FarmFund.Get();
+
         farm.SpendMoney(bagPrice);
+
         InitInventory();
+
         if (farm.money <= 0)
-            farm.money = 225; // Fallback if there is problems with "DontDestroyOnLoad"
+        {
+            farm.money = 225;
+        }
+
         inventoryManager.AddItems(goldItem, farm.money);
+
         foreach (InventoryItemData tool in tools)
         {
             inventoryManager.AddItem(tool);
         }
+
         inventoryManager.AddItems(seedItem, farm.seeds);
         inventoryManager.AddItems(harvestItem, farm.harvestedCount);
+
         farm.seeds = 0;
         farm.harvestedCount = 0;
+
+        // Re-enable every full-store option, including corn
+        foreach (GameObject button in buttons)
+        {
+            button.SetActive(true);
+        }
+
+        RefreshUI();
     }
 
     public void StartNextLevel()

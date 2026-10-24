@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "InventoryItemData", menuName = "Scriptable Objects/InventoryItemData")]
 public class InventoryItemData : ScriptableObject
 {
-    [Header ("Game Play")]
+    [Header("Game Play")]
     public string itemName;//will be used as ID
 
     public int buyPrice;
@@ -17,7 +17,11 @@ public class InventoryItemData : ScriptableObject
     //sprites used by the inventory
     public Sprite itemSprite;
     public bool stackable = true;
-    
+
+
+    [Header("Plant Data")]
+    public PlantData plantData;
+
 }
 //A plant can only be planted in the right season and all plants disappear in winter
 public enum ItemType
