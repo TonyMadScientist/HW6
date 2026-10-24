@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 143aaeb58781eff4a8fb09280f35ebb3, type: 3}
   m_Name: ChilliData
   m_EditorClassIdentifier: Assembly-CSharp::PlantData
-  plantName: 
-  plantPrefab: {fileID: 0}
-  plantingSeasons: 
+  plantName: Chilli
+  plantPrefab: {fileID: 568410040782672845, guid: 259124985c6e1e5438ffc5dd1b6ba29b, type: 3}
+  plantingSeasons: 0100000002000000i
+  disappearSeasons: 03000000i
   seedAmount: 1
   growthSpeed: 1
-  daysPerGrowthStage: 2
+  daysPerGrowthStage: 1

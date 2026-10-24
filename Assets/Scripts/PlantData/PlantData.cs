@@ -8,6 +8,10 @@ public class PlantData : ScriptableObject
 
     public DayNightControl.Season[] plantingSeasons;
 
+
+    public DayNightControl.Season[] disappearSeasons = { DayNightControl.Season.Winter };
+
+
     public int seedAmount = 1;
     public float growthSpeed = 1f;
     public int daysPerGrowthStage = 2;
@@ -24,4 +28,28 @@ public class PlantData : ScriptableObject
 
         return false;
     }
+
+    public bool DisappearsInSeason(DayNightControl.Season currentSeason)
+    {
+        foreach (DayNightControl.Season season in disappearSeasons)
+        {
+            if (season == currentSeason)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+
+
+
+
+
+
+
+
 }
+

@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlantManager : MonoBehaviour
 {
     public PlantData selectedPlantData;
+    public PlantData[] plantTypes; 
     public Transform player;
     public DayNightControl dayNightControl;
 
@@ -23,6 +24,20 @@ public class PlantManager : MonoBehaviour
         {
             Debug.LogError("DayNightControl is not assigned.");
             return false;
+        }
+
+        if (plantTypes != null && plantTypes.Length > 0)
+        {
+            DayNightControl.Season season = dayNightControl.GetCurrentSeason();
+
+            foreach (PlantData data in plantTypes)
+            {
+                if (data != null && data.CanBePlantedInSeason(season))
+                {
+                    selectedPlantData = data;
+                    break;
+                }
+            }
         }
 
         if (selectedPlantData == null)

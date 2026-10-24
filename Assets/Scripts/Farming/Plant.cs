@@ -106,12 +106,13 @@ public class Plant : MonoBehaviour
         DayNightControl.Season currentSeason =
             dayNight.GetCurrentSeason();
 
-        if (!plantData.CanBePlantedInSeason(currentSeason))
+        if (plantData.DisappearsInSeason(currentSeason))
         {
             Debug.Log(
                 name +
-                " was removed because it cannot grow during " +
-                currentSeason
+                " was removed because " +
+                currentSeason +
+                " started "
             );
 
             Destroy(gameObject);
