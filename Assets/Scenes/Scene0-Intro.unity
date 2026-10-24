@@ -385,6 +385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 550bb88b207175a489376f2e8459d91c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LoadScene
+  clickSound: {fileID: 8300000, guid: 99527ae93918e7e4ea72dd12fb32ce7c, type: 3}
 --- !u!4 &621266011
 Transform:
   m_ObjectHideFlags: 0

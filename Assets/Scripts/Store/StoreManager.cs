@@ -25,6 +25,10 @@ public class StoreManager : MonoBehaviour
     public string level4SceneName = "Scene4-Shoes";
     public string level5SceneName = "Scene5-Inventory";
 
+    public AudioClip clickSound;
+    public AudioClip buySound;
+    public AudioClip poorSound;
+
 #if UNITY_EDITOR
     // NEW: drag scene files here in the Inspector (editor only, so builds still work)
     public UnityEditor.SceneAsset plantScene;   // first store visit -> Scene3-Plant
@@ -72,6 +76,7 @@ public class StoreManager : MonoBehaviour
 
         if (FarmFund.Get().SpendMoney(cost)) // SpendMoney returns false if the player can't afford it  
         {
+            GetComponent<AudioSource>().PlayOneShot(buySound);
             FarmFund.Get().seeds += quantity;
             storeMessage.text = "Bought " + quantity + " seed(s)! You have " + FarmFund.Get().seeds + " seeds.";
             startNextLevelButton.interactable = true;
@@ -79,6 +84,7 @@ public class StoreManager : MonoBehaviour
 
         else
         {
+            GetComponent<AudioSource>().PlayOneShot(poorSound);
             storeMessage.text = "Not enough money!";
         }
 
@@ -86,14 +92,17 @@ public class StoreManager : MonoBehaviour
     }
     public void BuyShoes()
     {
+        
         if (FarmFund.Get().SpendMoney(shoesPrice))
         {
+            GetComponent<AudioSource>().PlayOneShot(buySound);
             FarmFund.Get().hasFastShoes = true;
             buyShoesButton.interactable = false; // one-time purchase
             storeMessage.text = "You bought SUPER DUPER Fast Shoes! You'll walk faster next level.";
         }
         else
         {
+            GetComponent<AudioSource>().PlayOneShot(poorSound);
             storeMessage.text = "Not enough money for Fast Shoes!";
         }
         RefreshUI();
@@ -102,7 +111,10 @@ public class StoreManager : MonoBehaviour
 
     public void StartNextLevel()
     {
-
+        GameObject soundObj = new GameObject("ClickSound");
+        DontDestroyOnLoad(soundObj);
+        soundObj.AddComponent<AudioSource>().PlayOneShot(clickSound);
+        Destroy(soundObj, clickSound.length);
         switch (FarmFund.Get().storeVisits)
         {
             case 3:
