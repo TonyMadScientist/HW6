@@ -2,19 +2,19 @@ using UnityEngine;
 
 public class Plant : MonoBehaviour
 {
+    [Header("Plant Configuration")]
+    public PlantData plantData;
+
     private GameObject plantedModel;
     private GameObject growingModel;
     private GameObject matureModel;
-
-    public int daysToGrowing = 2;
-    public int daysToMature = 2;
 
     private int daysInStage = 0;
     private int stage = 0;
 
     private DayNightControl dayNight;
 
-    void Awake()
+    private void Awake()
     {
         plantedModel =
             transform.Find("Stage1_Planted")?.gameObject;
@@ -30,13 +30,21 @@ public class Plant : MonoBehaviour
             matureModel == null)
         {
             Debug.LogError(
-                name + " is missing a stage child.",
+                name + " is missing a plant stage child.",
+                this
+            );
+        }
+
+        if (plantData == null)
+        {
+            Debug.LogError(
+                name + " does not have PlantData assigned.",
                 this
             );
         }
     }
 
-    void Start()
+    private void Start()
     {
         ShowStage(0);
 
@@ -50,95 +58,78 @@ public class Plant : MonoBehaviour
 
             if (dayNight != null)
             {
-                dayNight.dayPassedEvent.AddListener(
-                    ADayPassed
-                );
-
-                dayNight.seasonChangedEvent.AddListener(
-                    ASeasonChanged
-                );
+                dayNight.dayPassedEvent.AddListener(ADayPassed);
+                dayNight.seasonChangedEvent.AddListener(ASeasonChanged);
             }
         }
     }
 
-    void OnDestroy()
+    private void OnDestroy()
     {
         if (dayNight != null)
         {
-            dayNight.dayPassedEvent.RemoveListener(
-                ADayPassed
-            );
-
-            dayNight.seasonChangedEvent.RemoveListener(
-                ASeasonChanged
-            );
+            dayNight.dayPassedEvent.RemoveListener(ADayPassed);
+            dayNight.seasonChangedEvent.RemoveListener(ASeasonChanged);
         }
     }
 
     public void ADayPassed()
     {
-        Debug.Log(
-            name +
-            " day passed. stage=" +
-            stage +
-            " daysInStage=" +
-            daysInStage
-        );
+        if (plantData == null)
+            return;
 
         if (stage >= 2)
             return;
 
         daysInStage++;
 
-        if (stage == 0 &&
-            daysInStage >= daysToGrowing)
+        if (daysInStage >= plantData.daysPerGrowthStage)
         {
             daysInStage = 0;
-            ShowStage(1);
+            ShowStage(stage + 1);
         }
-        else if (stage == 1 &&
-                 daysInStage >= daysToMature)
-        {
-            daysInStage = 0;
-            ShowStage(2);
-        }
+
+        Debug.Log(
+            name +
+            " grew. Stage: " +
+            stage +
+            " | Days in stage: " +
+            daysInStage
+        );
     }
 
     public void ASeasonChanged()
     {
-        if (dayNight == null)
+        if (dayNight == null || plantData == null)
             return;
 
-        Debug.Log(
-            name +
-            " received season event: " +
-            dayNight.GetCurrentSeason()
-        );
+        DayNightControl.Season currentSeason =
+            dayNight.GetCurrentSeason();
 
-        if (dayNight.GetCurrentSeason() ==
-            DayNightControl.Season.Winter)
+        if (!plantData.CanBePlantedInSeason(currentSeason))
         {
             Debug.Log(
                 name +
-                " removed because Winter started."
+                " was removed because it cannot grow during " +
+                currentSeason
             );
 
             Destroy(gameObject);
         }
     }
 
-    void ShowStage(int s)
+    private void ShowStage(int newStage)
     {
-        stage = s;
+        stage = newStage;
 
         if (plantedModel != null)
-            plantedModel.SetActive(s == 0);
+            plantedModel.SetActive(stage == 0);
 
         if (growingModel != null)
-            growingModel.SetActive(s == 1);
+            growingModel.SetActive(stage == 1);
 
         if (matureModel != null)
-            matureModel.SetActive(s == 2);
+            matureModel.SetActive(stage == 2);
     }
 
     public bool IsMature()

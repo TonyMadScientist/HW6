@@ -1,80 +1,125 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlantManager : MonoBehaviour
 {
-    public GameObject plantPrefab;
+    public PlantData selectedPlantData;
     public Transform player;
-    //public Key plantKey = Key.P;
-
     public DayNightControl dayNightControl;
 
-    // Remembers which tiles already have a plant
     private Dictionary<FarmTileControl, GameObject> plants =
         new Dictionary<FarmTileControl, GameObject>();
 
-    private void Update()
+    public void SetSelectedPlant(PlantData plantData)
     {
-        /*
-        if (Keyboard.current != null && Keyboard.current[plantKey].wasPressedThisFrame)
-        {
-            TryPlant();
-        }
-        */
+        selectedPlantData = plantData;
+
+        Debug.Log("Selected plant: " + plantData.plantName);
     }
 
     public bool TryPlant()
     {
-        if (dayNightControl != null && dayNightControl.GetCurrentSeason() == DayNightControl.Season.Winter)
-            {
-                Debug.Log(
-                    "Cannot plant during Winter."
-                );
-
-                return false;
-            }
-
-        if (player == null) { Debug.LogError("Player slot is empty!"); return false; }
-        if (plantPrefab == null) { Debug.LogError("Plant Prefab slot is empty!"); return false; }
-
-        // Ray straight down from above the player; RaycastAll so the
-        // player's own collider doesn't block finding the tile
-        RaycastHit[] hits = Physics.RaycastAll(player.position + Vector3.up * 2f, Vector3.down, 6f);
-
-        FarmTileControl tile = null;
-        Collider tileCollider = null;
-        foreach (RaycastHit hit in hits)
+        if (dayNightControl == null)
         {
-            tile = hit.collider.GetComponentInParent<FarmTileControl>();
-            if (tile != null) { tileCollider = hit.collider; break; }
-        }
-        if (tile == null) return false;
-
-        // Only watered tiles can be planted on
-        if (tile.tileCond != FarmTileControl.FarmTileCond.Watered)
-        {
-            Debug.Log("Can only plant on a watered tile.");
+            Debug.LogError("DayNightControl is not assigned.");
             return false;
         }
 
-        // One plant per tile
+        if (selectedPlantData == null)
+        {
+            Debug.LogError("No PlantData has been selected.");
+            return false;
+        }
+
+        if (selectedPlantData.plantPrefab == null)
+        {
+            Debug.LogError("The selected PlantData has no plant prefab assigned.");
+            return false;
+        }
+
+        DayNightControl.Season currentSeason =
+            dayNightControl.GetCurrentSeason();
+
+        if (!selectedPlantData.CanBePlantedInSeason(currentSeason))
+        {
+            Debug.Log(
+                selectedPlantData.plantName +
+                " cannot be planted during " +
+                currentSeason
+            );
+
+            return false;
+        }
+
+        if (player == null)
+        {
+            Debug.LogError("Player slot is empty.");
+            return false;
+        }
+
+        RaycastHit[] hits = Physics.RaycastAll(
+            player.position + Vector3.up * 2f,
+            Vector3.down,
+            6f
+        );
+
+        FarmTileControl tile = null;
+        Collider tileCollider = null;
+
+        foreach (RaycastHit hit in hits)
+        {
+            tile = hit.collider.GetComponentInParent<FarmTileControl>();
+
+            if (tile != null)
+            {
+                tileCollider = hit.collider;
+                break;
+            }
+        }
+
+        if (tile == null)
+        {
+            Debug.Log("No farm tile found.");
+            return false;
+        }
+
+        if (tile.tileCond != FarmTileControl.FarmTileCond.Watered)
+        {
+            Debug.Log("The tile must be watered before planting.");
+            return false;
+        }
+
         if (plants.ContainsKey(tile) && plants[tile] != null)
         {
             Debug.Log("This tile already has a plant.");
             return false;
         }
 
-        // Spawn on the top surface of the tile
-        Vector3 pos = tile.transform.position;
-        pos.y = tileCollider.bounds.max.y;
+        Vector3 position = tile.transform.position;
+        position.y = tileCollider.bounds.max.y;
 
-        Debug.Log("PLANTING on frame " + Time.frameCount);
-          //" | P held: " + Keyboard.current[Key.P].isPressed
-          //" | plantKey: " + plantKey + "\n" + System.Environment.StackTrace);
-          
-        GameObject plant = Instantiate(plantPrefab, pos, Quaternion.identity, transform);
-        plants[tile] = plant;
+        GameObject newPlant = Instantiate(
+            selectedPlantData.plantPrefab,
+            position,
+            Quaternion.identity,
+            transform
+        );
+
+        Plant plantScript = newPlant.GetComponent<Plant>();
+
+        if (plantScript != null)
+        {
+            plantScript.plantData = selectedPlantData;
+        }
+
+        plants[tile] = newPlant;
+
+        Debug.Log(
+            selectedPlantData.plantName +
+            " planted successfully during " +
+            currentSeason
+        );
+
         return true;
     }
 }

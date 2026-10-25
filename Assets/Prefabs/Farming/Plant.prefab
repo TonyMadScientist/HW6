@@ -47,8 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c649bd151ea215489009adeed55a131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Plant
-  daysToGrowing: 2
-  daysToMature: 2
+  plantData: {fileID: 11400000, guid: 1dd4af3df16cc654f9c1c73e4830c669, type: 2}
 --- !u!1001 &3326930696940264195
 PrefabInstance:
   m_ObjectHideFlags: 0
