@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 417690093462718445}
-  - component: {fileID: 385879269994764616}
+  - component: {fileID: 8236769281282955415}
   m_Layer: 0
   m_Name: ChilliPlant
   m_TagString: Untagged
@@ -35,7 +35,7 @@ Transform:
   - {fileID: 5715615359661889605}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &385879269994764616
+--- !u!114 &8236769281282955415
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,9 +44,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2336628049165693583}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b49052276bdda044ab15b4d689d3e009, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c649bd151ea215489009adeed55a131, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
+  m_EditorClassIdentifier: Assembly-CSharp::Plant
+  plantData: {fileID: 11400000, guid: a24acf98b180c074bb91fa447f50ac79, type: 2}
 --- !u!1001 &5249869635948691374
 PrefabInstance:
   m_ObjectHideFlags: 0
