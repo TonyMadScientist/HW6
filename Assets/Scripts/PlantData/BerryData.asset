@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlantData
   plantName: Berry
   plantPrefab: {fileID: 568410040782672845, guid: 259124985c6e1e5438ffc5dd1b6ba29b, type: 3}
-  plantingSeasons: 00000000i
-  disappearSeasons: 0100000002000000i
+  plantingSeasons: 0000000001000000i
+  disappearSeasons: 03000000i
   harvestItem: {fileID: 11400000, guid: 9892e21ea2f1bc845b65fda333eda452, type: 2}
   seedAmount: 1
   growthSpeed: 1
