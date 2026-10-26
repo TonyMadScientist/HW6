@@ -2,7 +2,6 @@ using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class FullStoreManager : MonoBehaviour
 {
@@ -29,25 +28,7 @@ public class FullStoreManager : MonoBehaviour
     public AudioClip clickSound;
     public AudioClip bagSound;
 
-
-    //public string plantSceneName = "Scene3-Plant"; // NEW: scene for the first store visit
-    //public string level4SceneName = "Scene4-Shoes";
-    //public string level5SceneName = "Scene5-Inventory";
-
     private InventoryManager inventoryManager;
-
-#if UNITY_EDITOR
-    // NEW: drag scene files here in the Inspector (editor only, so builds still work)
-    //public UnityEditor.SceneAsset plantScene;   // first store visit -> Scene3-Plant
-    //public UnityEditor.SceneAsset level4Scene;  // second store visit -> Scene4-Shoes
-    //public UnityEditor.SceneAsset level5Scene;  // third store visit -> Scene5-Inventory
-
-    private void OnValidate()
-    {
-        //if (plantScene != null) plantSceneName = plantScene.name;
-        //if (level4Scene != null) level4SceneName = level4Scene.name;
-    }
-#endif
 
     private void Start()
     {
@@ -107,7 +88,7 @@ public class FullStoreManager : MonoBehaviour
 
         if (farm.money <= 0)
         {
-            farm.money = 225;
+            farm.money = 225; // Prevent possibility of softlock if loading from scene (debugging) instead of from scene0
         }
 
         inventoryManager.AddItems(goldItem, farm.money);
@@ -122,12 +103,6 @@ public class FullStoreManager : MonoBehaviour
 
         farm.seeds = 0;
         farm.harvestedCount = 0;
-
-        // Re-enable every full-store option, including corn
-        foreach (GameObject button in buttons)
-        {
-            button.SetActive(true);
-        }
 
         RefreshUI();
     }

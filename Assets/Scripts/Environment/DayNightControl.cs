@@ -49,13 +49,16 @@ public class DayNightControl : MonoBehaviour
     // New HW6 season event
     public UnityEvent seasonChangedEvent = new UnityEvent();
 
+    public TMP_Text instructions;
+
     private void Start()
     {
         UpdateCalendar();
         UpdateTimeDisplay();
+        UpdateInstructionText();
     }
 
-    void Update()
+    private void Update()
     {
         currentTimeOfDay += Time.deltaTime / cycleLengthInSeconds;
 
@@ -137,6 +140,25 @@ public class DayNightControl : MonoBehaviour
         {
             seasonLabel.text =
                 currentSeason.ToString();
+        }
+    }
+
+    private void UpdateInstructionText()
+    {
+        string txt;
+        if (instructions != null) // Scenes 1, 3 and 4 don't use this logic. Only scene 5 would have this set
+        {
+            switch (FarmFund.Get().storeVisits)
+            {
+                case 3: // Full Store visited once. Has only Berry Seeds
+                    txt = "Level 4: Grow as much as you can until winter!\r\nBerry Seeds can only be planted in Spring/Summer.";
+                    break;
+                case 4: // Full Store visited twice. First time using Chilli Seeds
+                default: // Endless gameplay loop default text
+                    txt = "No more levels, you now loop between farm and store.\r\nBerrySeeds are planted: Spring/Summer. ChilliSeeds are planted: Summer/Fall.\r\nFarming ends in winter. All unharvested will die.\r\nUse [SHIFT] to cycle seeds, or CLICK a seed to equip it.";
+                    break;
+            }
+            instructions.text = txt;
         }
     }
 

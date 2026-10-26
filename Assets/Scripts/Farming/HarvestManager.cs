@@ -26,8 +26,7 @@ public class HarvestManager : MonoBehaviour
         Plant closest = null;
         float closestDist = harvestRange;
 
-        foreach (Plant plant in FindObjectsByType<Plant>(
-            FindObjectsSortMode.None))
+        foreach (Plant plant in FindObjectsByType<Plant>())
         {
             Vector3 plantPosition = plant.transform.position;
             Vector3 playerPosition = player.position;
