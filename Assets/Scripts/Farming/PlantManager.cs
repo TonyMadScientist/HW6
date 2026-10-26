@@ -1,17 +1,48 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlantManager : MonoBehaviour
 {
     public PlantData selectedPlantData;
     public Transform player;
     public DayNightControl dayNightControl;
+    public Key cyclePlantKey = Key.LeftShift;
+    public Key cyclePlantKey2 = Key.RightShift;
 
     public InventoryItemData selectedSeedItem;
+    public List<InventoryItemData> otherSeeds;
 
     private Dictionary<FarmTileControl, GameObject> plants =
         new Dictionary<FarmTileControl, GameObject>();
 
+    private void Update()
+    {
+        if (Keyboard.current == null)
+            return;
+
+        if (Keyboard.current[cyclePlantKey].wasPressedThisFrame || Keyboard.current[cyclePlantKey2].wasPressedThisFrame)
+        {
+            Cycle();
+            return;
+        }
+    }
+    private void Cycle() // Cycle between seeds we have.
+    {
+        foreach (InventoryItemData seed in otherSeeds)// Go through the list of other seeds.
+        {
+            if (InventoryManager.Get().HasItem(seed.itemName))  // If we have said seed.
+            {
+                InventoryItemData newSeed = seed;
+                otherSeeds.Remove(seed); // Remove it from this list
+                if (selectedSeedItem != null)
+                    otherSeeds.Add(selectedSeedItem); // Add what we currently have equipped to this list of seeds we don't
+                SetSelectedSeed(newSeed); // Swap it out, we now have a different seed equipped.
+                return; // Don't go looking for more seeds. We just want the first one that we have in the inventory.
+            }
+        }
+    }
     public void SetSelectedPlant(PlantData plantData)
     {
         if (plantData == null)

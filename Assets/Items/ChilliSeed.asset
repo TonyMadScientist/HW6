@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: ChilliSeed
   m_EditorClassIdentifier: Assembly-CSharp::CropData
   itemName: ChilliSeed
-  buyPrice: 3
+  buyPrice: 5
   sellPrice: 9
-  amountInBag: 1
+  amountInBag: 3
   itemType: 1
   interactionType: 1
   itemSprite: {fileID: 21300182, guid: 2700e06d970d112489ff23cfb58c3f78, type: 3}

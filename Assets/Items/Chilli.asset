@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InventoryItemData
   itemName: Chilli
   buyPrice: 11
-  sellPrice: 9
-  amountInBag: 2
+  sellPrice: 13
+  amountInBag: 5
   itemType: 2
   interactionType: 2
   itemSprite: {fileID: 21300096, guid: 2700e06d970d112489ff23cfb58c3f78, type: 3}
